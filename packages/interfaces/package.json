@@ -1,0 +1,19 @@
+{
+  "name": "@timelog/interfaces",
+  "version": "1.0.0",
+  "description": "interfaces for TimeLog apps",
+  "main": "index.ts",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\""
+  },
+  "keywords": [
+    "interfaces"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "tsconfig": "*",
+    "typescript": "^4.5.2"
+  }
+}
