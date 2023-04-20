@@ -1,30 +1,26 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ApiProperty } from '@nestjs/swagger';
+import { ICreteUserDto } from '../dto/user.dto';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema({ timestamps: true })
-export class User {
-  @ApiProperty({ example: 'Иван', description: 'Имя пользователя' })
+export class User implements ICreteUserDto {
   @Prop({ required: true })
   name: string;
 
-  @ApiProperty({
-    example: 'Иванов',
-    description: 'Фамилия пользователя',
-    required: true,
-  })
   @Prop({ required: true })
   surname: string;
 
-  @ApiProperty({
-    example: 25,
-    description: 'Возраст пользователя',
-    required: false,
-  })
+  @Prop({ required: true })
+  patronymic: string;
+
   @Prop()
-  age: number;
+  email: string;
+
+  @Prop()
+  password: string;
+  
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
