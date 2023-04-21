@@ -14,8 +14,6 @@ export class UserService {
   }
 
   async create(data: CreateUserDto) {
-    const candidate = await this.findUserByEmail(data.email)
-    if(candidate) throw new BadRequestException(`Пользователь c email ${data.email} уже существует`)
     data.password = await bcrypt.hash(data.password, 10)
     return this.model.create(data);
   }
