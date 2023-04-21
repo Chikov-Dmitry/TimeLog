@@ -1,8 +1,8 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IAuthUserResponseDto } from '@timelog/interfaces';
+import { IsEmail, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ICreateUserRequestDto } from '@timelog/interfaces';
 
-export class CreateUserDto implements ICreateUserRequestDto {
+export class AuthResponseDto implements IAuthUserResponseDto {
   @ApiProperty({
     example: 'Иван',
     description: 'Имя пользователя',
@@ -35,12 +35,10 @@ export class CreateUserDto implements ICreateUserRequestDto {
   @IsEmail()
   email: string;
 
-  @ApiProperty({
-    example: 'qwerty12',
-    description: 'Пароль пользователя',
-    required: true,
-  })
-  @MinLength(8)
-  @IsString()
-  password: string;
+  constructor(model: IAuthUserResponseDto) {
+    this.name = model.name;
+    this.surname = model.surname;
+    this.patronymic = model.patronymic;
+    this.email = model.email;
+  }
 }

@@ -1,20 +1,20 @@
 import { User, UserDocument } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import {BadRequestException, Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/user.dto';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   @InjectModel(User.name) private model: Model<UserDocument>;
 
-  async findUserByEmail(email: string){
-    return this.model.findOne({email})
+  async findUserByEmail(email: string) {
+    return this.model.findOne({ email });
   }
 
   async create(data: CreateUserDto) {
-    data.password = await bcrypt.hash(data.password, 10)
+    data.password = await bcrypt.hash(data.password, 10);
     return this.model.create(data);
   }
 

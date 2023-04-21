@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ICreteUserDto } from '../dto/user.dto';
+import { ICreateUserRequestDto } from '@timelog/interfaces';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema({ timestamps: true })
-export class User implements ICreteUserDto {
+export class User implements ICreateUserRequestDto {
   @Prop({ required: true })
   name: string;
 
@@ -20,7 +20,6 @@ export class User implements ICreteUserDto {
 
   @Prop()
   password: string;
-  
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
