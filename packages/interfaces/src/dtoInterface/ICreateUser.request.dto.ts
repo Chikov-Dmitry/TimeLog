@@ -4,4 +4,5 @@ export interface ICreateUserRequestDto {
     patronymic: string;
     email: string;
     password: string;
+    deviceId: string
 }

@@ -5,7 +5,7 @@ import { ICreateUserRequestDto } from '@timelog/interfaces';
 export type UserDocument = HydratedDocument<User>;
 
 @Schema({ timestamps: true })
-export class User implements ICreateUserRequestDto {
+export class User implements Omit<ICreateUserRequestDto, 'deviceId'> {
   @Prop({ required: true })
   name: string;
 

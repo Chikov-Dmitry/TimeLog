@@ -43,4 +43,12 @@ export class CreateUserDto implements ICreateUserRequestDto {
   @MinLength(8)
   @IsString()
   password: string;
+
+  @ApiProperty({
+    example: 'afa2fha5fdhiuah23',
+    description: 'id устройства пользователя',
+    required: true,
+  })
+  @IsString()
+  deviceId: string;
 }

@@ -1,9 +1,16 @@
-import { IAuthUserResponseDto } from '@timelog/interfaces';
-import { IsEmail, ValidateNested, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { TokensDto } from '../../token/dto/tokens.dto';
+import { IsEmail, IsString } from 'class-validator';
 
-export class AuthResponseDto implements Omit<IAuthUserResponseDto, 'deviceId'> {
+interface ITokenPayloadDto {
+  id: string;
+  name: string;
+  surname: string;
+  patronymic: string;
+  email: string;
+  deviceId: string;
+}
+
+export class TokenPayloadDto {
   @ApiProperty({
     example: 'sfdgsdfg2341fad',
     description: 'ID пользователя',
@@ -44,15 +51,20 @@ export class AuthResponseDto implements Omit<IAuthUserResponseDto, 'deviceId'> {
   @IsEmail()
   email: string;
 
-  @ValidateNested()
-  tokens: TokensDto;
+  @ApiProperty({
+    example: 'afa2fha5fdhiuah23',
+    description: 'Уникальная строка id устройства пользователя',
+    required: true,
+  })
+  @IsString()
+  deviceId: string;
 
-  constructor(model: Omit<IAuthUserResponseDto, 'deviceId'>) {
+  constructor(model: ITokenPayloadDto) {
     this.id = model.id;
     this.name = model.name;
     this.surname = model.surname;
     this.patronymic = model.patronymic;
     this.email = model.email;
-    this.tokens = model.tokens;
+    this.deviceId = model.deviceId;
   }
 }
