@@ -16,7 +16,9 @@ import { LogoutUserRequestDto } from './dto/LogoutUser.request.dto';
 import { PublicEndPoint } from '../../common/decorators/PublicEndPoint.decorator';
 import { Response } from 'express';
 import { RefreshTokenGuard } from '../../common/guards/refreshToken.guard';
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

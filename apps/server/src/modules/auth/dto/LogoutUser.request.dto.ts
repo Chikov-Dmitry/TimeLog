@@ -13,7 +13,7 @@ export class LogoutUserRequestDto implements ILogoutUserRequestDto {
 
   @ApiProperty({
     example: 'afa2fha5fdhiuah23',
-    description: 'Уникальная строка id устройства пользователя',
+    description: 'id устройства пользователя',
     required: true,
   })
   @IsString()
