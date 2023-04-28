@@ -5,4 +5,5 @@ export interface ICreateUserRequestDto {
     email: string;
     password: string;
     deviceId: string
+    roles?: string[]
 }

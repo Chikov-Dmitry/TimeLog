@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/user.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { Role } from '../../common/enums/role.enum';
 
 @ApiTags('User')
 @Controller('user')
@@ -14,6 +16,7 @@ export class UserController {
   }
 
   @Get()
+  @Roles(Role.Admin)
   findAll() {
     return this.userService.findAll();
   }

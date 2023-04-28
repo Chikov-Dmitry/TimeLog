@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsString } from 'class-validator';
 
 interface ITokenPayloadDto {
   id: string;
@@ -8,6 +8,7 @@ interface ITokenPayloadDto {
   patronymic: string;
   email: string;
   deviceId: string;
+  roles: string[];
 }
 
 export class TokenPayloadDto {
@@ -59,6 +60,9 @@ export class TokenPayloadDto {
   @IsString()
   deviceId: string;
 
+  @IsArray()
+  roles: string[];
+
   constructor(model: ITokenPayloadDto) {
     this.id = model.id;
     this.name = model.name;
@@ -66,5 +70,6 @@ export class TokenPayloadDto {
     this.patronymic = model.patronymic;
     this.email = model.email;
     this.deviceId = model.deviceId;
+    this.roles = model.roles;
   }
 }

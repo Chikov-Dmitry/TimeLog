@@ -65,7 +65,7 @@ export class TokenService {
       );
     } else {
       await this.model.findOneAndUpdate(
-        { 'tokens.deviceId': deviceId },
+        { user: userId, 'tokens.deviceId': deviceId },
         {
           $set: {
             'tokens.$.refreshToken': refreshToken,

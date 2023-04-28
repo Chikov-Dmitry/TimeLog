@@ -28,7 +28,7 @@ export class AuthService {
       );
     const user = await this.userService.create(dto);
     const deviceId = dto.deviceId;
-    const { id, name, surname, patronymic, email } = user;
+    const { id, name, surname, patronymic, email, roles } = user;
 
     const payload = new TokenPayloadDto({
       id,
@@ -37,6 +37,7 @@ export class AuthService {
       patronymic,
       email,
       deviceId,
+      roles,
     });
     const tokens = this.tokenService.generateToken(payload);
 
@@ -52,6 +53,7 @@ export class AuthService {
       surname,
       patronymic,
       email,
+      roles,
       tokens,
     });
   }
@@ -68,7 +70,7 @@ export class AuthService {
     );
     if (!validatePassword) throw new BadRequestException('Не верные данные');
     const deviceId = dto.deviceId;
-    const { id, name, surname, patronymic, email } = candidate;
+    const { id, name, surname, patronymic, email, roles } = candidate;
 
     const payload = new TokenPayloadDto({
       id,
@@ -77,6 +79,7 @@ export class AuthService {
       patronymic,
       email,
       deviceId,
+      roles,
     });
     const tokens = this.tokenService.generateToken(payload);
 
@@ -92,6 +95,7 @@ export class AuthService {
       surname,
       patronymic,
       email,
+      roles,
       tokens,
     });
   }
@@ -120,7 +124,7 @@ export class AuthService {
 
     const user = await this.userService.findOne(userId);
 
-    const { id, name, surname, patronymic, email } = user;
+    const { id, name, surname, patronymic, email, roles } = user;
 
     const tokens = this.tokenService.generateToken({
       name,
@@ -129,10 +133,11 @@ export class AuthService {
       patronymic,
       email,
       deviceId,
+      roles,
     });
 
     await this.tokenService.saveToken(userId, deviceId, tokens.refreshToken);
 
-    return { id, name, surname, patronymic, email, tokens };
+    return { id, name, surname, patronymic, email, roles, tokens };
   }
 }

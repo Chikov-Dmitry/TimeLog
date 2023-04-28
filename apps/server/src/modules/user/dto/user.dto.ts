@@ -1,6 +1,13 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ICreateUserRequestDto } from '@timelog/interfaces';
+import { Role } from '../../../common/enums/role.enum';
 
 export class CreateUserDto implements ICreateUserRequestDto {
   @ApiProperty({
@@ -51,4 +58,13 @@ export class CreateUserDto implements ICreateUserRequestDto {
   })
   @IsString()
   deviceId: string;
+
+  @ApiProperty({
+    example: [Role.User],
+    description: 'Роль пользователя',
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(Role, { each: true })
+  roles?: Role[];
 }
