@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from '../user/dto/user.dto';
+import { CreateUserDto } from '../user/dto/createUser.dto';
 import { LoginUserRequestDto } from './dto/LoginUser.request.dto';
 import { LogoutUserRequestDto } from './dto/LogoutUser.request.dto';
 import { PublicEndPoint } from '../../common/decorators/PublicEndPoint.decorator';
