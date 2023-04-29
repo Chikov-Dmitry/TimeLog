@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
 import { PatchUserDto } from './dto/patchUser.dto';
+import {ChangeUserRoleDto} from "./dto/changeUserRole.dto";
 
 @Injectable()
 export class UserService {
@@ -32,6 +33,13 @@ export class UserService {
   }
 
   async editUser(id: string, data: PatchUserDto) {
+    const candidate = await this.findOne(id);
+    await candidate.updateOne(data);
+    await candidate.save();
+    return this.findOne(id);
+  }
+
+  async changeRoles(id: string, data: ChangeUserRoleDto) {
     const candidate = await this.findOne(id);
     await candidate.updateOne(data);
     await candidate.save();
