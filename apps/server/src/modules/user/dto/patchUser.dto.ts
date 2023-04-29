@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { IPatchUserRequestDto } from '@timelog/interfaces';
 
 export class PatchUserDto implements IPatchUserRequestDto {
@@ -26,12 +26,4 @@ export class PatchUserDto implements IPatchUserRequestDto {
   @IsOptional()
   @IsString()
   patronymic: string;
-
-  @ApiProperty({
-    example: 'test@mail.com',
-    description: 'E-mail пользователя',
-  })
-  @IsOptional()
-  @IsEmail()
-  email: string;
 }

@@ -14,6 +14,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Role } from '../../common/enums/role.enum';
 import { PatchUserDto } from './dto/patchUser.dto';
+import { SameUser } from '../../common/decorators/sameUser.decorator';
 
 @ApiTags('User')
 @Controller('user')
@@ -41,7 +42,7 @@ export class UserController {
     return this.userService.delete(id);
   }
 
-  //TODO добавить guard что бы пользователь мог редактировать только себя
+  @SameUser()
   @Patch('/:id')
   editUser(@Body() data: PatchUserDto, @Param('id') id: string) {
     if (data['roles'])
@@ -51,6 +52,10 @@ export class UserController {
     if (data['password'])
       throw new BadRequestException(
         'Запрещено изменять пароль при редактировании пользователя',
+      );
+    if (data['email'])
+      throw new BadRequestException(
+        'Запрещено изменять email при редактировании пользователя',
       );
     return this.userService.editUser(id, data);
   }

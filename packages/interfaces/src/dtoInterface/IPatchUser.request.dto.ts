@@ -5,5 +5,4 @@ export interface IPatchUserRequestDto {
 
     patronymic: string;
 
-    email: string;
 }
