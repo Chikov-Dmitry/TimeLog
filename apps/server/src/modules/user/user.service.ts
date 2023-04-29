@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
+import { PatchUserDto } from './dto/patchUser.dto';
 
 @Injectable()
 export class UserService {
@@ -28,5 +29,12 @@ export class UserService {
 
   delete(id: string) {
     return this.model.findByIdAndRemove(id);
+  }
+
+  async editUser(id: string, data: PatchUserDto) {
+    const candidate = await this.findOne(id);
+    await candidate.updateOne(data);
+    await candidate.save();
+    return this.findOne(id);
   }
 }
