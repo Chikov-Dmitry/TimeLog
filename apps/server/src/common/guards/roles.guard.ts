@@ -7,12 +7,13 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Role } from '../enums/role.enum';
 import { ROLES_KEY } from '../decorators/roles.decorator';
+import { UserService } from '../../modules/user/user.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector, private userService: UserService) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -20,7 +21,8 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    const { user } = context.switchToHttp().getRequest().user;
+    const reqUser = context.switchToHttp().getRequest().user;
+    const user = await this.userService.findOne(reqUser.id);
     const can = requiredRoles.some((role) => user.roles?.includes(role));
     if (!can) throw new ForbiddenException('Доступ запрещен');
     else return true;

@@ -32,12 +32,7 @@ export class AuthService {
 
     const payload = new TokenPayloadDto({
       id,
-      name,
-      surname,
-      patronymic,
-      email,
       deviceId,
-      roles,
     });
     const tokens = this.tokenService.generateToken(payload);
 
@@ -74,12 +69,7 @@ export class AuthService {
 
     const payload = new TokenPayloadDto({
       id,
-      name,
-      surname,
-      patronymic,
-      email,
       deviceId,
-      roles,
     });
     const tokens = this.tokenService.generateToken(payload);
 
@@ -101,8 +91,7 @@ export class AuthService {
   }
 
   async logout(dto: LogoutUserRequestDto) {
-    const user = await this.userService.findUserByEmail(dto.email);
-    await this.tokenService.removeToken(user.id, dto.deviceId);
+    await this.tokenService.removeToken(dto.id, dto.deviceId);
   }
 
   async refreshTokens(
@@ -127,13 +116,8 @@ export class AuthService {
     const { id, name, surname, patronymic, email, roles } = user;
 
     const tokens = this.tokenService.generateToken({
-      name,
       id,
-      surname,
-      patronymic,
-      email,
       deviceId,
-      roles,
     });
 
     await this.tokenService.saveToken(userId, deviceId, tokens.refreshToken);

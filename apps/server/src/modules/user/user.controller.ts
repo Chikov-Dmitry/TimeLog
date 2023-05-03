@@ -15,7 +15,7 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { Role } from '../../common/enums/role.enum';
 import { PatchUserDto } from './dto/patchUser.dto';
 import { SameUser } from '../../common/decorators/sameUser.decorator';
-import {ChangeUserRoleDto} from "./dto/changeUserRole.dto";
+import { ChangeUserRoleDto } from './dto/changeUserRole.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -63,8 +63,8 @@ export class UserController {
 
   @Patch('/roles/:id')
   changeUserRoles(@Body() data: ChangeUserRoleDto, @Param('id') id: string) {
-    const {roles} = data
-    return this.userService.changeRoles(id, {roles});
+    const { roles } = data;
+    return this.userService.changeRoles(id, { roles });
   }
 
   //TODO Добавить роут для изменения пароля

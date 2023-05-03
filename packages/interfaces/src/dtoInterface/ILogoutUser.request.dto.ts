@@ -1,5 +1,5 @@
 export interface ILogoutUserRequestDto {
-    email: string,
+    id: string,
     deviceId: string,
 
 }

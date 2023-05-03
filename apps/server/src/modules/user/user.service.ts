@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
 import { PatchUserDto } from './dto/patchUser.dto';
-import {ChangeUserRoleDto} from "./dto/changeUserRole.dto";
+import { ChangeUserRoleDto } from './dto/changeUserRole.dto';
 
 @Injectable()
 export class UserService {

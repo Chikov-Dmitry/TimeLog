@@ -1,15 +1,15 @@
 import { ILogoutUserRequestDto } from '@timelog/interfaces';
-import { IsEmail, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class LogoutUserRequestDto implements ILogoutUserRequestDto {
   @ApiProperty({
-    example: 'test@mail.com',
-    description: 'E-mail пользователя',
+    example: 'sfdgsdfg2341fad',
+    description: 'id пользователя',
     required: true,
   })
-  @IsEmail()
-  email: string;
+  @IsString()
+  id: string;
 
   @ApiProperty({
     example: 'afa2fha5fdhiuah23',

@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  ForbiddenException,
   Get,
   Post,
   Req,
@@ -17,7 +16,7 @@ import { PublicEndPoint } from '../../common/decorators/PublicEndPoint.decorator
 import { Response } from 'express';
 import { RefreshTokenGuard } from '../../common/guards/refreshToken.guard';
 import { ApiTags } from '@nestjs/swagger';
-import {SameUser} from "../../common/decorators/sameUser.decorator";
+import { SameUser } from '../../common/decorators/sameUser.decorator';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -49,10 +48,8 @@ export class AuthController {
   @Post('logout')
   async logout(
     @Body() dto: LogoutUserRequestDto,
-    @Req() req,
     @Res() res: Response,
   ) {
-
     await this.authService.logout(dto);
 
     res.clearCookie('refreshToken');
@@ -63,8 +60,8 @@ export class AuthController {
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
   async refreshTokens(@Req() req, @Res() res: Response) {
-    const user = req?.user?.user;
-    if (!req.user) throw new BadRequestException();
+    const user = req?.user;
+    if (!user) throw new BadRequestException();
     const { refreshToken } = req.cookies;
     const authResponse = await this.authService.refreshTokens(
       user.id,
