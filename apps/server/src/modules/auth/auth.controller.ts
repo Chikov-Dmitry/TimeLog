@@ -46,10 +46,7 @@ export class AuthController {
   }
   @SameUser()
   @Post('logout')
-  async logout(
-    @Body() dto: LogoutUserRequestDto,
-    @Res() res: Response,
-  ) {
+  async logout(@Body() dto: LogoutUserRequestDto, @Res() res: Response) {
     await this.authService.logout(dto);
 
     res.clearCookie('refreshToken');

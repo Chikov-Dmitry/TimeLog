@@ -111,7 +111,7 @@ export class AuthService {
     if (dbToken !== refreshToken)
       throw new UnauthorizedException('Указанные токены не совпадают');
 
-    const user = await this.userService.findOne(userId);
+    const user = await this.userService.findById(userId);
 
     const { id, name, surname, patronymic, email, roles } = user;
 

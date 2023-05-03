@@ -24,7 +24,7 @@ export class UserService {
     return this.model.find();
   }
 
-  findOne(id: string) {
+  findById(id: string) {
     return this.model.findById(id);
   }
 
@@ -33,16 +33,16 @@ export class UserService {
   }
 
   async editUser(id: string, data: PatchUserDto) {
-    const candidate = await this.findOne(id);
+    const candidate = await this.findById(id);
     await candidate.updateOne(data);
     await candidate.save();
-    return this.findOne(id);
+    return this.findById(id);
   }
 
   async changeRoles(id: string, data: ChangeUserRoleDto) {
-    const candidate = await this.findOne(id);
+    const candidate = await this.findById(id);
     await candidate.updateOne(data);
     await candidate.save();
-    return this.findOne(id);
+    return this.findById(id);
   }
 }

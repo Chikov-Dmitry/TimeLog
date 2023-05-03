@@ -11,7 +11,7 @@ export class SameUserGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const paramUserId = request.params.id;
-    const bodyUserId = request.body.id
+    const bodyUserId = request.body.id;
 
     const user = context.switchToHttp().getRequest().user;
 
@@ -26,7 +26,7 @@ export class SameUserGuard implements CanActivate {
     if (bodyUserId) {
       if (user.id !== bodyUserId)
         throw new ForbiddenException(
-            'Запрещено выполнять запрос для других пользователей',
+          'Запрещено выполнять запрос для других пользователей',
         );
       else return true;
     }
