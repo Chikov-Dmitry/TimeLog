@@ -16,6 +16,7 @@ import { Role } from '../../common/enums/role.enum';
 import { PatchUserDto } from './dto/patchUser.dto';
 import { SameUser } from '../../common/decorators/sameUser.decorator';
 import { ChangeUserRoleDto } from './dto/changeUserRole.dto';
+import { ChangeUserPasswordDto } from './dto/changeUserPassword.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -61,11 +62,23 @@ export class UserController {
     return this.userService.editUser(id, data);
   }
 
+  @Roles(Role.Admin)
   @Patch('/roles/:id')
   changeUserRoles(@Body() data: ChangeUserRoleDto, @Param('id') id: string) {
     const { roles } = data;
     return this.userService.changeRoles(id, { roles });
   }
 
-  //TODO Добавить роут для изменения пароля
+  @SameUser()
+  @Patch('/password/:id')
+  changeUserPassword(
+    @Body() data: ChangeUserPasswordDto,
+    @Param('id') id: string,
+  ) {
+    const { oldPassword, newPassword } = data;
+    return this.userService.changeUserPassword(id, {
+      oldPassword,
+      newPassword,
+    });
+  }
 }

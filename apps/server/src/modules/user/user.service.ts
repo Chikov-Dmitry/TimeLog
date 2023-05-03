@@ -1,12 +1,13 @@
 import { User, UserDocument } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
 import { PatchUserDto } from './dto/patchUser.dto';
 import { ChangeUserRoleDto } from './dto/changeUserRole.dto';
-import {Role} from "../../common/enums/role.enum";
+import { Role } from '../../common/enums/role.enum';
+import { ChangeUserPasswordDto } from './dto/changeUserPassword.dto';
 
 @Injectable()
 export class UserService {
@@ -47,8 +48,23 @@ export class UserService {
     return this.findById(id);
   }
 
-  async getUserRoles(id: string): Promise<Role[]>{
-    const user = await this.findById(id)
-    return user.roles
+  async getUserRoles(id: string): Promise<Role[]> {
+    const user = await this.findById(id);
+    return user.roles;
+  }
+
+  async changeUserPassword(id, data: ChangeUserPasswordDto) {
+    const user = await this.findById(id);
+
+    const validatePassword = await bcrypt.compare(
+      data.oldPassword,
+      user.password,
+    );
+    if (!validatePassword)
+      throw new BadRequestException('Не верно указан старый пароль');
+
+    user.password = await bcrypt.hash(data.newPassword, 10);
+    user.save();
+    return user;
   }
 }
