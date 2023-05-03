@@ -22,8 +22,8 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const reqUser = context.switchToHttp().getRequest().user;
-    const user = await this.userService.findById(reqUser.id);
-    const can = requiredRoles.some((role) => user.roles?.includes(role));
+    const userRoles = await this.userService.getUserRoles(reqUser.id);
+    const can = requiredRoles.some((role) => userRoles.includes(role));
     if (!can) throw new ForbiddenException('Доступ запрещен');
     else return true;
   }

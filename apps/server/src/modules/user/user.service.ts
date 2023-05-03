@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
 import { PatchUserDto } from './dto/patchUser.dto';
 import { ChangeUserRoleDto } from './dto/changeUserRole.dto';
+import {Role} from "../../common/enums/role.enum";
 
 @Injectable()
 export class UserService {
@@ -44,5 +45,10 @@ export class UserService {
     await candidate.updateOne(data);
     await candidate.save();
     return this.findById(id);
+  }
+
+  async getUserRoles(id: string): Promise<Role[]>{
+    const user = await this.findById(id)
+    return user.roles
   }
 }
