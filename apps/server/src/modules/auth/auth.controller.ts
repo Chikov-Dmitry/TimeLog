@@ -17,6 +17,7 @@ import { PublicEndPoint } from '../../common/decorators/PublicEndPoint.decorator
 import { Response } from 'express';
 import { RefreshTokenGuard } from '../../common/guards/refreshToken.guard';
 import { ApiTags } from '@nestjs/swagger';
+import {SameUser} from "../../common/decorators/sameUser.decorator";
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -44,21 +45,18 @@ export class AuthController {
     });
     res.send({ authResponse });
   }
-
+  @SameUser()
   @Post('logout')
   async logout(
     @Body() dto: LogoutUserRequestDto,
     @Req() req,
     @Res() res: Response,
   ) {
-    const reqUser = req?.user.user;
-    if (!reqUser) throw new BadRequestException();
 
-    if (dto.email !== reqUser.email) throw new ForbiddenException();
     await this.authService.logout(dto);
 
     res.clearCookie('refreshToken');
-    return 'success';
+    return res.send();
   }
 
   @PublicEndPoint()
