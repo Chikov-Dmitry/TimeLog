@@ -86,6 +86,10 @@ export class TokenService {
     );
   }
 
+  async removeTokenDocument(userId: string) {
+    await this.model.findOneAndDelete({ user: userId });
+  }
+
   async validateAccessToken(token) {
     return this.jwtService.verify(token, {
       secret: this.configService.get('jwt.access_secret'),

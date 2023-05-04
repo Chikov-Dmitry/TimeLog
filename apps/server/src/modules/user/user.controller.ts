@@ -39,6 +39,7 @@ export class UserController {
     return this.userService.findById(id);
   }
 
+  @SameUser()
   @Delete('/:id')
   remove(@Param('id') id: string) {
     return this.userService.delete(id);

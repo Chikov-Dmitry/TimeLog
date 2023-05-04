@@ -31,7 +31,7 @@ export class UserService {
   }
 
   delete(id: string) {
-    return this.model.findByIdAndRemove(id);
+    return this.model.findOneAndDelete({ _id: id });
   }
 
   async editUser(id: string, data: PatchUserDto) {
