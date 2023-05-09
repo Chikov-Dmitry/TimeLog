@@ -10,6 +10,7 @@ import { TokenModule } from '../token/token.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from '../../common/guards/accessToken.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
+import { TimeLogModule } from '../time-log/time-log.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RolesGuard } from '../../common/guards/roles.guard';
     UserModule,
     AuthModule,
     TokenModule,
+    TimeLogModule,
   ],
   controllers: [AppController],
   providers: [
