@@ -31,7 +31,7 @@ export class AuthController {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    res.send({ authResponse });
+    res.send(authResponse );
   }
 
   @PublicEndPoint()
@@ -42,7 +42,7 @@ export class AuthController {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    res.send({ authResponse });
+    res.send( authResponse );
   }
   @SameUser()
   @Post('logout')
@@ -69,6 +69,6 @@ export class AuthController {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    res.send({ authResponse });
+    res.send(authResponse);
   }
 }
