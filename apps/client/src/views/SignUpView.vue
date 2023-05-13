@@ -1,6 +1,6 @@
 <template>
   <div
-    class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+    class="surface-ground flex align-items-center justify-content-center min-h-screen overflow-hidden"
   >
     <div class="flex flex-column align-items-center justify-content-center">
       <div class="mb-5 text-8xl" style="color: var(--primary-color)">TL</div>
@@ -61,6 +61,7 @@
 
               <pButton label="Зарегистрировать" class="w-full p-3 text-xl" type="submit"></pButton>
             </Form>
+            <p-toast />
           </div>
           <div class="flex align-items-center justify-content-center mt-5">
             <span>Уже зарегистрированы?</span>
@@ -82,6 +83,14 @@ import { useRouter } from 'vue-router'
 import ValidateInputText from '@/components/ValidateInputText.vue'
 import { Form } from 'vee-validate'
 import * as Yup from 'yup'
+import { useAuthStore } from '@/stores/auth'
+import axios from 'axios'
+import { useToast } from 'primevue/usetoast'
+const toast = useToast()
+
+const authStore = useAuthStore()
+
+const { registration } = authStore
 
 const router = useRouter()
 
@@ -92,12 +101,32 @@ const schema = Yup.object().shape({
   email: Yup.string().email('Не валидный email').required('Обязательное поле'),
   password: Yup.string().required('Обязательное поле').min(8),
   password2: Yup.string()
-    .required()
+    .required('Обязательное поле')
     .oneOf([Yup.ref('password')], 'Пароли не совпадают')
 })
 
 async function onSubmit(values: Record<string, string>) {
-  console.log(values)
+  const { name, surname, patronymic, email, password } = values
+  const deviceId = authStore.deviceId
+  try {
+    await registration({ name, surname, patronymic, email, password, deviceId })
+
+    await router.push({ name: 'home' })
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      if (e.response) {
+        const message = e.response.data.message
+        toast.add({ severity: 'error', summary: 'Ошибка', detail: `${message}`, life: 5000 })
+      }
+    } else {
+      toast.add({
+        severity: 'error',
+        summary: 'Ошибка',
+        detail: 'непредвиденная ошибка',
+        life: 5000
+      })
+    }
+  }
 }
 </script>
 

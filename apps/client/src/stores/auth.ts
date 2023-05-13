@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { enumStatusLoad } from '@/common/enumStatusLoad'
-import { IAuthUserResponseDto } from '@timelog/interfaces'
+import { IAuthUserResponseDto, ICreateUserRequestDto } from '@timelog/interfaces'
 import AuthApi from '@/api/auth.api'
 import axios, { AxiosError } from 'axios'
 import { date } from 'yup'
@@ -16,7 +16,15 @@ export const useAuthStore = defineStore('auth', () => {
     const response = await AuthApi.login({ email, password, deviceId })
     isAuthenticated.value = true
     user.value = response.data
+    return response
   }
 
-  return { isAuthenticated, user, statusLoad, deviceId, login }
+  async function registration(payload: ICreateUserRequestDto) {
+    const response = await AuthApi.registration(payload)
+    isAuthenticated.value = true
+    user.value = response.data
+    return response
+  }
+
+  return { isAuthenticated, user, statusLoad, deviceId, login, registration }
 })
