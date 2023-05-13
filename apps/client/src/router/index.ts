@@ -31,6 +31,9 @@ router.beforeEach((to, from, next) => {
   if (to.name !== 'signUp' && to.name !== 'signIn' && !authStore.isAuthenticated) {
     console.warn('canceled navigation', { message: 'not authenticated' })
     next({ name: 'signIn' })
+  }else if(authStore.isAuthenticated && (to.name === 'signIn' || to.name === 'signUp')){
+    console.warn('canceled navigation', { message: 'do sign out before going sign in' })
+    next({name: from.name? from.name : 'home'})
   } else next()
 })
 
