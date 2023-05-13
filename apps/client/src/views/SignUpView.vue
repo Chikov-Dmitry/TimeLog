@@ -3,7 +3,7 @@
     class="surface-ground flex align-items-center justify-content-center min-h-screen overflow-hidden"
   >
     <div class="flex flex-column align-items-center justify-content-center">
-      <div class="mb-5 text-8xl" style="color: var(--primary-color)">TL</div>
+      <app-logo class="mb-5" font-size="100px" />
 
       <div
         style="
@@ -86,6 +86,7 @@ import * as Yup from 'yup'
 import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
 import { useToast } from 'primevue/usetoast'
+import AppLogo from '@/components/AppLogo.vue'
 const toast = useToast()
 
 const authStore = useAuthStore()
