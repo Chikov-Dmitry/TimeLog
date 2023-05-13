@@ -18,37 +18,33 @@
           </div>
 
           <div>
-            <label for="email" class="block text-900 text-xl font-medium mb-2">Email</label>
-            <pInputText
-              id="email"
-              type="email"
-              placeholder="Email"
-              class="w-full md:w-30rem mb-5"
-              style="padding: 1rem"
-              v-model="email"
-            />
+            <Form @submit="onSubmit" :validation-schema="schema">
+              <validate-input-text
+                label="Email"
+                name="email"
+                placeholder="Email"
+                type="email"
+                class="mb-5"
+              />
+              <validate-input-text
+                label="Пароль"
+                name="password"
+                placeholder="Пароль"
+                type="password"
+                class="w-full md:w-30rem mb-5"
+              />
 
-            <label for="password" class="block text-900 font-medium text-xl mb-2">Пароль</label>
-            <pPassword
-              id="password"
-              v-model="password"
-              :feedback="false"
-              placeholder="Пароль"
-              :toggleMask="true"
-              class="w-full mb-5"
-              inputClass="w-full"
-              :inputStyle="{ padding: '1rem' }"
-            ></pPassword>
-
-            <pButton label="Войти" class="w-full p-3 text-xl" @click="signIn"></pButton>
+              <pButton label="Войти" class="w-full p-3 text-xl" type="submit"></pButton>
+            </Form>
+            <pToast />
           </div>
           <div class="flex align-items-center justify-content-center mt-5">
             <span>Не зарегистрированы?</span>
             <a
               class="font-medium no-underline ml-2 text-right cursor-pointer"
               style="color: var(--primary-color)"
-              @click="router.push({name: 'signUp'})"
-            >Зарегистрировать</a
+              @click="router.push({ name: 'signUp' })"
+              >Зарегистрировать</a
             >
           </div>
         </div>
@@ -58,24 +54,47 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import {useAuthStore} from "@/stores/auth";
+import { useAuthStore } from '@/stores/auth'
+import { Form } from 'vee-validate'
+import * as Yup from 'yup'
+import ValidateInputText from '@/components/ValidateInputText.vue'
+import axios from 'axios'
+
+import { useToast } from 'primevue/usetoast'
+const toast = useToast()
 
 const authStore = useAuthStore()
-const {login} = authStore
+const { login } = authStore
 
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
+async function onSubmit(values: Record<string, string>) {
+  try {
+    await login(values.email, values.password, authStore.deviceId)
 
-
-
-async function signIn() {
-  await login(email.value, password.value, authStore.deviceId)
-  await router.push({name: 'home'})
+    await router.push({ name: 'home' })
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      if (e.response) {
+        const message = e.response.data.message
+        toast.add({ severity: 'error', summary: 'Ошибка', detail: `${message}`, life: 5000 })
+      }
+    } else {
+      toast.add({
+        severity: 'error',
+        summary: 'Ошибка',
+        detail: 'непредвиденная ошибка',
+        life: 5000
+      })
+    }
+  }
 }
+
+const schema = Yup.object().shape({
+  email: Yup.string().email('Не валидный email').required('Обязательное поле'),
+  password: Yup.string().required('Обязательное поле')
+})
 </script>
 
 <style scoped></style>

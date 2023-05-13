@@ -12,15 +12,19 @@ import router from './router'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
+import ToastService from 'primevue/toastservice'
+import Toast from 'primevue/toast'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 app.use(PrimeVue)
+app.use(ToastService)
 
 app.component('pInputText', InputText)
 app.component('pPassword', Password)
 app.component('pButton', Button)
+app.component('pToast', Toast)
 
 app.mount('#app')

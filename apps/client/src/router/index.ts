@@ -2,9 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import SignInView from '@/views/SignInView.vue'
-import {useAuthStore} from "@/stores/auth";
-
-
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,14 +25,13 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next)=>{
+router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   const isAuthenticated = false
   if (to.name !== 'signUp' && to.name !== 'signIn' && !authStore.isAuthenticated) {
-    console.warn("canceled navigation", {message: 'not authenticated'})
+    console.warn('canceled navigation', { message: 'not authenticated' })
     next({ name: 'signIn' })
-  }
-  else next()
+  } else next()
 })
 
 export default router

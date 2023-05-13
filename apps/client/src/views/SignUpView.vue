@@ -18,81 +18,56 @@
           </div>
 
           <div>
-            <label for="name" class="block text-900 text-xl font-medium mb-2">Имя</label>
-            <pInputText
-              id="name"
-              type="text"
-              placeholder="Имя"
-              class="w-full md:w-30rem mb-5"
-              style="padding: 1rem"
-              v-model="name"
-            />
+            <Form @submit="onSubmit" :validation-schema="schema">
+              <validate-input-text label="Имя" name="name" placeholder="Имя" class="mb-5" />
 
-            <label for="surname" class="block text-900 text-xl font-medium mb-2">Фамилия</label>
-            <pInputText
-              id="surname"
-              type="text"
-              placeholder="Фамилия"
-              class="w-full md:w-30rem mb-5"
-              style="padding: 1rem"
-              v-model="surname"
-            />
+              <validate-input-text
+                label="Фамилия"
+                name="surname"
+                placeholder="Фамиия"
+                class="mb-5 md:w-30rem"
+              />
 
-            <label for="patronymic" class="block text-900 text-xl font-medium mb-2">Отчество</label>
-            <pInputText
-              id="patronymic"
-              type="text"
-              placeholder="Отчество"
-              class="w-full md:w-30rem mb-5"
-              style="padding: 1rem"
-              v-model="patronymic"
-            />
+              <validate-input-text
+                label="Отчество"
+                name="patronymic"
+                placeholder="Отчество"
+                class="mb-5 md:w-30rem"
+              />
 
-            <label for="email" class="block text-900 text-xl font-medium mb-2">Email</label>
-            <pInputText
-              id="email"
-              type="email"
-              placeholder="Email"
-              class="w-full md:w-30rem mb-5"
-              style="padding: 1rem"
-              v-model="email"
-            />
+              <validate-input-text
+                label="Email"
+                name="email"
+                type="email"
+                placeholder="Email"
+                class="mb-5 md:w-30rem"
+              />
 
-            <label for="password" class="block text-900 font-medium text-xl mb-2">Пароль</label>
-            <pPassword
-              id="password"
-              v-model="password"
-              :feedback="false"
-              placeholder="Пароль"
-              :toggleMask="true"
-              class="w-full mb-5"
-              inputClass="w-full"
-              :inputStyle="{ padding: '1rem' }"
-            ></pPassword>
+              <validate-input-text
+                label="Пароль"
+                name="password"
+                type="password"
+                placeholder="Пароль"
+                class="mb-5 md:w-30rem"
+              />
 
-            <label for="password2" class="block text-900 font-medium text-xl mb-2"
-              >Подтверждение пароля</label
-            >
-            <pPassword
-              id="password2"
-              v-model="password2"
-              :feedback="false"
-              placeholder="Пароль"
-              :toggleMask="true"
-              class="w-full mb-5"
-              :class="{ 'p-invalid': !equalPasswords }"
-              inputClass="w-full"
-              :inputStyle="{ padding: '1rem' }"
-            ></pPassword>
+              <validate-input-text
+                label="Пароль"
+                name="password2"
+                type="password"
+                placeholder="Пароль"
+                class="mb-5 md:w-30rem"
+              />
 
-            <pButton label="Зарегистрировать" class="w-full p-3 text-xl" @click="signUp"></pButton>
+              <pButton label="Зарегистрировать" class="w-full p-3 text-xl" type="submit"></pButton>
+            </Form>
           </div>
           <div class="flex align-items-center justify-content-center mt-5">
             <span>Уже зарегистрированы?</span>
             <a
               class="font-medium no-underline ml-2 text-right cursor-pointer"
               style="color: var(--primary-color)"
-              @click="router.push({name: 'signIn'})"
+              @click="router.push({ name: 'signIn' })"
               >Войти</a
             >
           </div>
@@ -103,26 +78,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ValidateInputText from '@/components/ValidateInputText.vue'
+import { Form } from 'vee-validate'
+import * as Yup from 'yup'
 
 const router = useRouter()
 
-const name = ref('')
-const surname = ref('')
-const patronymic = ref('')
-const email = ref('')
-const password = ref('')
-const password2 = ref('')
-
-const equalPasswords = computed(() => {
-  return !(password2.value && password.value !== password2.value);
+const schema = Yup.object().shape({
+  name: Yup.string().required('Обязательное поле'),
+  surname: Yup.string().required('Обязательное поле'),
+  patronymic: Yup.string().required('Обязательное поле'),
+  email: Yup.string().email('Не валидный email').required('Обязательное поле'),
+  password: Yup.string().required('Обязательное поле').min(8),
+  password2: Yup.string()
+    .required()
+    .oneOf([Yup.ref('password')], 'Пароли не совпадают')
 })
 
-function signUp() {
-  console.log(name.value)
-  console.log(surname.value)
-  console.log(patronymic.value)
+async function onSubmit(values: Record<string, string>) {
+  console.log(values)
 }
 </script>
 
