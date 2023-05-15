@@ -1,4 +1,5 @@
 import axios from 'axios'
+import AuthApi from '@/api/auth.api'
 
 export const API_URL = import.meta.env.VITE_API_URL
 
@@ -21,9 +22,9 @@ ApiInstance.interceptors.response.use(
     if (error.response.status == 401 && error.config && !error.config._isRetry) {
       originalRequest._isRetry = true
       try {
-        const response = await axios.get(`${API_URL}/auth/refresh`, { withCredentials: true })
+        const response = await AuthApi.refresh()
         console.log(response)
-        localStorage.setItem('token', response.data.accessToken)
+        localStorage.setItem('token', response.data.tokens.accessToken)
         return ApiInstance.request(originalRequest)
       } catch (e) {
         console.warn('authentication failed')

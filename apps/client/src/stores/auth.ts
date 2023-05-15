@@ -13,18 +13,38 @@ export const useAuthStore = defineStore('auth', () => {
   const deviceId = ref<string>('')
 
   async function login(email: string, password: string, deviceId: string) {
+    statusLoad.value = enumStatusLoad.LOADING
     const response = await AuthApi.login({ email, password, deviceId })
     isAuthenticated.value = true
     user.value = response.data
+    statusLoad.value = enumStatusLoad.LOADED
     return response
   }
 
   async function registration(payload: ICreateUserRequestDto) {
+    statusLoad.value = enumStatusLoad.LOADING
     const response = await AuthApi.registration(payload)
     isAuthenticated.value = true
     user.value = response.data
+    statusLoad.value = enumStatusLoad.LOADED
     return response
   }
 
-  return { isAuthenticated, user, statusLoad, deviceId, login, registration }
+  async function checkAuth() {
+    if (isAuthenticated.value) return true
+    statusLoad.value = enumStatusLoad.LOADING
+    try {
+      const response = await AuthApi.refresh()
+      localStorage.setItem('token', response.data.tokens.accessToken)
+      isAuthenticated.value = true
+      user.value = response.data
+      statusLoad.value = enumStatusLoad.LOADED
+      return true
+    } catch (e) {
+      console.warn(e)
+      return false
+    }
+  }
+
+  return { isAuthenticated, user, statusLoad, deviceId, login, registration, checkAuth }
 })

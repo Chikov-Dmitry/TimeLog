@@ -16,4 +16,8 @@ export default class AuthApi {
   ): Promise<AxiosResponse<IAuthUserResponseDto>> {
     return ApiInstance.post<IAuthUserResponseDto>('/auth/register', payload)
   }
+
+  static async refresh(): Promise<AxiosResponse<IAuthUserResponseDto>> {
+    return ApiInstance.get('/auth/refresh')
+  }
 }

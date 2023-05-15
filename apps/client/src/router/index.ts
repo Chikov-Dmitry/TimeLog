@@ -25,16 +25,20 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from) => {
+  const publicPages = ['/sign-in', '/sign-up']
+  const authRequired = !publicPages.includes(to.path)
   const authStore = useAuthStore()
-  const isAuthenticated = false
-  if (to.name !== 'signUp' && to.name !== 'signIn' && !authStore.isAuthenticated) {
+  const { checkAuth } = authStore
+  await checkAuth()
+  if (authRequired && !authStore.isAuthenticated) {
     console.warn('canceled navigation', { message: 'not authenticated' })
-    next({ name: 'signIn' })
-  }else if(authStore.isAuthenticated && (to.name === 'signIn' || to.name === 'signUp')){
+    return { name: 'signIn' }
+  }
+  if (authStore.isAuthenticated && (to.name === 'signIn' || to.name === 'signUp')) {
     console.warn('canceled navigation', { message: 'do sign out before going sign in' })
-    next({name: from.name? from.name : 'home'})
-  } else next()
+    return { name: from.name ? from.name : 'home' }
+  }
 })
 
 export default router
