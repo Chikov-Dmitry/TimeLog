@@ -1,0 +1,15 @@
+@import '_variables.scss';
+.layout-main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  padding: 5.5rem 0.5rem 0.5rem 0.5rem;
+  transition: margin-left $transitionDuration;
+}
+
+.layout-main {
+  border: 1px solid #ccc;
+  border-radius: $borderRadius;
+  flex: 1 1 auto;
+}

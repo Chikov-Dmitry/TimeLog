@@ -1,6 +1,7 @@
 import './assets/main.scss'
 import 'primevue/resources/themes/lara-light-blue/theme.css'
 import 'primevue/resources/primevue.min.css'
+import '@mdi/font/css/materialdesignicons.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
