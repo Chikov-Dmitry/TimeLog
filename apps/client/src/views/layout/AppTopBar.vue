@@ -26,7 +26,7 @@
       </button>
       <button v-tooltip.bottom="{ value: 'Выйти', disabled: isMobileScreenWidth()}" class="p-link layout-top-bar-button">
         <i class="mdi mdi-logout"></i>
-        <span>logout</span>
+        <span>Выйти</span>
       </button>
     </div>
   </div>
