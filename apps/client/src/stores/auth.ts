@@ -19,6 +19,17 @@ export const useAuthStore = defineStore('auth', () => {
     return response
   }
 
+  async function logout() {
+    const userV = user.value
+    if (!userV || !userV.id || !deviceId.value) throw new Error('user id or device id undefined')
+    statusLoad.value = enumStatusLoad.LOADING
+    const response = await AuthApi.logout({ id: userV.id, deviceId: deviceId.value })
+    user.value = null
+    isAuthenticated.value = false
+    statusLoad.value = enumStatusLoad.LOADED
+    return response
+  }
+
   async function registration(payload: ICreateUserRequestDto) {
     statusLoad.value = enumStatusLoad.LOADING
     const response = await AuthApi.registration(payload)
@@ -44,5 +55,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { isAuthenticated, user, statusLoad, deviceId, login, registration, checkAuth }
+  return { isAuthenticated, user, statusLoad, deviceId, login, logout, registration, checkAuth }
 })

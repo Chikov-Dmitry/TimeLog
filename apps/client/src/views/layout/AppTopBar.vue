@@ -33,6 +33,7 @@
       <button
         v-tooltip.bottom="{ value: 'Выйти', disabled: isMobileScreenWidth() }"
         class="p-link layout-top-bar-button"
+        @click="logoutClick"
       >
         <i class="mdi mdi-logout"></i>
         <span>Выйти</span>
@@ -45,6 +46,14 @@
 import AppLogo from '@/components/AppLogo.vue'
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useLayout } from '@/views/layout/composables/layout'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const authStore = useAuthStore()
+
+const { logout } = authStore
 
 const { onMenuToggle, isMobileScreenWidth } = useLayout()
 
@@ -58,6 +67,16 @@ onMounted(() => {
 onBeforeUnmount(() => {
   unbindOutsideClickListener()
 })
+
+async function logoutClick() {
+  try {
+    await logout()
+    localStorage.removeItem('token')
+    await router.push({ name: 'signIn' })
+  } catch (e) {
+    console.warn(e)
+  }
+}
 
 const onTopBarMenuButton = () => {
   topBarMenuActive.value = !topBarMenuActive.value
