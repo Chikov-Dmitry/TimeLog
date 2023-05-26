@@ -15,7 +15,7 @@ import Password from 'primevue/password'
 import Button from 'primevue/button'
 import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
-import Tooltip from "primevue/tooltip";
+import Tooltip from 'primevue/tooltip'
 
 const app = createApp(App)
 

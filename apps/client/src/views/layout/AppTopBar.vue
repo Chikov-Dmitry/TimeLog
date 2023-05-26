@@ -16,15 +16,24 @@
     </button>
 
     <div class="layout-top-bar-menu" :class="topBarMenuClasses">
-      <button v-tooltip.bottom="{ value: 'Настройки', disabled: isMobileScreenWidth()}" class="p-link layout-top-bar-button">
+      <button
+        v-tooltip.bottom="{ value: 'Настройки', disabled: isMobileScreenWidth() }"
+        class="p-link layout-top-bar-button"
+      >
         <i class="mdi mdi-cog-outline"></i>
         <span>Настройки</span>
       </button>
-      <button v-tooltip.bottom="{ value: 'Профиль', disabled: isMobileScreenWidth()}" class="p-link layout-top-bar-button">
+      <button
+        v-tooltip.bottom="{ value: 'Профиль', disabled: isMobileScreenWidth() }"
+        class="p-link layout-top-bar-button"
+      >
         <i class="mdi mdi-account-outline"></i>
         <span>Профиль</span>
       </button>
-      <button v-tooltip.bottom="{ value: 'Выйти', disabled: isMobileScreenWidth()}" class="p-link layout-top-bar-button">
+      <button
+        v-tooltip.bottom="{ value: 'Выйти', disabled: isMobileScreenWidth() }"
+        class="p-link layout-top-bar-button"
+      >
         <i class="mdi mdi-logout"></i>
         <span>Выйти</span>
       </button>

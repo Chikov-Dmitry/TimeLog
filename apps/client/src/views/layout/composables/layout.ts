@@ -51,7 +51,7 @@ export function useLayout() {
     () => layoutState.overlayMenuActive || layoutState.staticMenuMobileActive
   )
 
-  const isMobileScreenWidth = ()=>{
+  const isMobileScreenWidth = () => {
     return window.innerWidth < mobileBreakpoint
   }
 
