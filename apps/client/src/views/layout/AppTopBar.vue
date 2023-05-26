@@ -16,15 +16,15 @@
     </button>
 
     <div class="layout-top-bar-menu" :class="topBarMenuClasses">
-      <button class="p-link layout-top-bar-button">
+      <button v-tooltip.bottom="{ value: 'Настройки', disabled: isMobileScreenWidth()}" class="p-link layout-top-bar-button">
         <i class="mdi mdi-cog-outline"></i>
         <span>Настройки</span>
       </button>
-      <button class="p-link layout-top-bar-button">
+      <button v-tooltip.bottom="{ value: 'Профиль', disabled: isMobileScreenWidth()}" class="p-link layout-top-bar-button">
         <i class="mdi mdi-account-outline"></i>
         <span>Профиль</span>
       </button>
-      <button class="p-link layout-top-bar-button">
+      <button v-tooltip.bottom="{ value: 'Выйти', disabled: isMobileScreenWidth()}" class="p-link layout-top-bar-button">
         <i class="mdi mdi-logout"></i>
         <span>logout</span>
       </button>
@@ -37,7 +37,7 @@ import AppLogo from '@/components/AppLogo.vue'
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useLayout } from '@/views/layout/composables/layout'
 
-const { onMenuToggle } = useLayout()
+const { onMenuToggle, isMobileScreenWidth } = useLayout()
 
 const topBarMenuActive = ref(false)
 const outsideClickListener = ref<null | ((e: Event) => void)>(null)

@@ -15,6 +15,7 @@ import Password from 'primevue/password'
 import Button from 'primevue/button'
 import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
+import Tooltip from "primevue/tooltip";
 
 const app = createApp(App)
 
@@ -22,6 +23,8 @@ app.use(createPinia())
 app.use(router)
 app.use(PrimeVue)
 app.use(ToastService)
+
+app.directive('tooltip', Tooltip)
 
 app.component('pInputText', InputText)
 app.component('pPassword', Password)

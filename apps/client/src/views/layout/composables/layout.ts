@@ -1,5 +1,7 @@
 import { toRefs, reactive, computed } from 'vue'
 
+const mobileBreakpoint = 991
+
 const layoutConfig = reactive({
   ripple: false,
   darkTheme: false,
@@ -38,7 +40,7 @@ export function useLayout() {
       layoutState.overlayMenuActive = !layoutState.overlayMenuActive
     }
 
-    if (window.innerWidth > 991) {
+    if (window.innerWidth > mobileBreakpoint) {
       layoutState.staticMenuDesktopInactive = !layoutState.staticMenuDesktopInactive
     } else {
       layoutState.staticMenuMobileActive = !layoutState.staticMenuMobileActive
@@ -48,6 +50,10 @@ export function useLayout() {
   const isSidebarActive = computed(
     () => layoutState.overlayMenuActive || layoutState.staticMenuMobileActive
   )
+
+  const isMobileScreenWidth = ()=>{
+    return window.innerWidth < mobileBreakpoint
+  }
 
   const isDarkTheme = computed(() => layoutConfig.darkTheme)
 
@@ -59,6 +65,7 @@ export function useLayout() {
     onMenuToggle,
     isSidebarActive,
     isDarkTheme,
+    isMobileScreenWidth,
     setActiveMenuItem
   }
 }
