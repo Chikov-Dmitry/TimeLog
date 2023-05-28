@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { enumStatusLoad } from '@/common/enumStatusLoad'
 import { IAuthUserResponseDto, ICreateUserRequestDto } from '@timelog/interfaces'
 import AuthApi from '@/api/auth.api'
@@ -9,6 +9,11 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<IAuthUserResponseDto | null>(null)
   const statusLoad = ref(enumStatusLoad.NOT_STARTED)
   const deviceId = ref<string>('')
+
+  const userId = computed(() => {
+    if (!user.value) return null
+    return user.value.id
+  })
 
   async function login(email: string, password: string, deviceId: string) {
     statusLoad.value = enumStatusLoad.LOADING
@@ -55,5 +60,15 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { isAuthenticated, user, statusLoad, deviceId, login, logout, registration, checkAuth }
+  return {
+    isAuthenticated,
+    user,
+    userId,
+    statusLoad,
+    deviceId,
+    login,
+    logout,
+    registration,
+    checkAuth
+  }
 })

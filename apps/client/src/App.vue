@@ -1,9 +1,23 @@
 <script setup lang="ts">
 import { v4 } from 'uuid'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+import { socket } from '@/api/socket'
 
 const authStore = useAuthStore()
+const { userId } = storeToRefs(authStore)
+
+watch(userId, (newVal, old) => {
+  if (!newVal) socket.disconnect()
+  else if (newVal) {
+    const qUserId = socket.io.opts.query?.userId
+    if (!qUserId || qUserId !== newVal) {
+      if (socket.io.opts.query) socket.io.opts.query.userId = newVal
+    }
+    socket.connect()
+  }
+})
 
 onBeforeMount(() => {
   const LsDeviceId = localStorage.getItem('deviceId')

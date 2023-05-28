@@ -11,6 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from '../../common/guards/accessToken.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { TimeLogModule } from '../time-log/time-log.module';
+import { OnlineModule } from '../online/online.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TimeLogModule } from '../time-log/time-log.module';
     AuthModule,
     TokenModule,
     TimeLogModule,
+    OnlineModule,
   ],
   controllers: [AppController],
   providers: [
