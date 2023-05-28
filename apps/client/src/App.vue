@@ -8,7 +8,7 @@ import { socket } from '@/api/socket'
 const authStore = useAuthStore()
 const { userId } = storeToRefs(authStore)
 
-watch(userId, (newVal, old) => {
+watch(userId, (newVal) => {
   if (!newVal) socket.disconnect()
   else if (newVal) {
     const qUserId = socket.io.opts.query?.userId

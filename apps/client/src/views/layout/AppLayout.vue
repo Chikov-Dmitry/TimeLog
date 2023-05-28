@@ -2,12 +2,10 @@
   <div class="layout-wrapper" :class="containerClass">
     <app-top-bar />
     <div class="layout-sidebar">
-      <!--      <app-sidebar></app-sidebar>-->
-      sidebar
+      <app-menu />
     </div>
     <div class="layout-main-container">
       <div class="layout-main">
-        main
         <router-view></router-view>
       </div>
     </div>
@@ -20,6 +18,7 @@ import './styles/layout.scss'
 import { computed, ref, watch } from 'vue'
 import { useLayout } from '@/views/layout/composables/layout'
 import AppTopBar from '@/views/layout/AppTopBar.vue'
+import AppMenu from '@/views/layout/AppMenu.vue'
 const { layoutConfig, layoutState, isSidebarActive } = useLayout()
 
 const outsideClickListener = ref<null | ((e: Event) => void)>(null)

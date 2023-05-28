@@ -4,6 +4,8 @@ import SignUpView from '@/views/SignUpView.vue'
 import SignInView from '@/views/SignInView.vue'
 import { useAuthStore } from '@/stores/auth'
 import AppLayout from '@/views/layout/AppLayout.vue'
+import SettingsView from '@/views/SettingsView.vue'
+import OnlineView from '@/views/OnlineView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +19,16 @@ const router = createRouter({
           path: '/',
           name: 'home',
           component: HomeView
+        },
+        {
+          path: '/settings',
+          name: 'settings',
+          component: SettingsView
+        },
+        {
+          path: 'online',
+          name: 'online',
+          component: OnlineView
         }
       ]
     },
