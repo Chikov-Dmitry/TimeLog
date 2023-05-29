@@ -27,6 +27,7 @@
       <button
         v-tooltip.bottom="{ value: 'Профиль', disabled: isMobileScreenWidth() }"
         class="p-link layout-top-bar-button"
+        @click="profileClick"
       >
         <i class="mdi mdi-account-outline"></i>
         <span>Профиль</span>
@@ -81,6 +82,10 @@ async function logoutClick() {
 
 function settingsClick() {
   router.push({ name: 'settings' })
+}
+
+function profileClick() {
+  router.push({ name: 'profile' })
 }
 
 const onTopBarMenuButton = () => {
