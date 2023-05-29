@@ -19,6 +19,7 @@
       <button
         v-tooltip.bottom="{ value: 'Настройки', disabled: isMobileScreenWidth() }"
         class="p-link layout-top-bar-button"
+        @click="settingsClick"
       >
         <i class="mdi mdi-cog-outline"></i>
         <span>Настройки</span>
@@ -76,6 +77,10 @@ async function logoutClick() {
   } catch (e) {
     console.warn(e)
   }
+}
+
+function settingsClick(){
+  router.push({name: 'settings'})
 }
 
 const onTopBarMenuButton = () => {
