@@ -1,8 +1,15 @@
 <template>
   <div class="card">
-    <p-data-table :value="users" tableStyle="min-width: 50rem">
-      <p-column field="id" header="Id"></p-column>
+    <p class="text-xl font-semibold">Список пользователей online</p>
+    <p-data-table :value="users" sortField="surname" :sortOrder="1" :loading="loading">
+      <template #loading>
+        <p-progress-bar mode="indeterminate" style="height: 6px; width: 100%" />
+      </template>
+      <p-column field="surname" header="Фамилия"></p-column>
       <p-column field="name" header="Имя"></p-column>
+      <p-column field="patronymic" header="Отчество"></p-column>
+      <p-column field="email" header="Email"></p-column>
+      <p-column field="id" header="Id"></p-column>
     </p-data-table>
   </div>
 </template>
@@ -10,24 +17,30 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, watch } from 'vue'
 import { socket } from '@/api/socket'
-import { UserIdsOnlineDto } from '@timelog/interfaces'
+import { UserOnlineDto } from '@timelog/interfaces'
 
-const users = ref<{ id: string; name: string }[]>([])
+const users = ref<
+  { id: string; name: string; surname: string; patronymic: string; email: string }[]
+>([])
+const loading = ref(true)
 
-const userIdsOnlineList = ref<UserIdsOnlineDto>([])
+const userIdsOnlineList = ref<UserOnlineDto>([])
 
 watch(userIdsOnlineList, (newV) => {
   users.value = []
   newV.forEach((el) => {
-    users.value.push({ id: el, name: 'name' })
+    users.value.push(el)
   })
+  loading.value = false
 })
 
 onBeforeMount(() => {
   socket.on('onlineList', function (data) {
+    loading.value = true
     userIdsOnlineList.value = data
   })
   socket.emit('getOnlineList', (el) => {
+    loading.value = true
     userIdsOnlineList.value = el
   })
 })

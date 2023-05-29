@@ -1,4 +1,5 @@
 export type {ITest} from "./src/TestInterface"
+export type {IUserResponseDto} from "./src/dtoInterface/IUser.response.dto"
 export type {ICreateUserRequestDto} from "./src/dtoInterface/ICreateUser.request.dto"
 export type {IPatchUserRequestDto} from "./src/dtoInterface/IPatchUser.request.dto"
 export type {ILoginUserRequestDto} from "./src/dtoInterface/ILoginUser.request.dto"
@@ -8,4 +9,4 @@ export type {ITimeLogDto} from "./src/dtoInterface/ITimeLog.dto"
 
 export type {IServerToClientEvents} from "./src/socket/IServerToClientEvents"
 export type {IClientToServerEvents} from "./src/socket/IClientToServerEvents"
-export type {UserIdsOnlineDto} from "./src/socket/UserIdsOnline.dto"
+export type {UserOnlineDto} from "./src/socket/UserOnlineDto"

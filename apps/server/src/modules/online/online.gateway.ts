@@ -9,7 +9,7 @@ import { OnlineService } from './online.service';
 import {
   IClientToServerEvents,
   IServerToClientEvents,
-  UserIdsOnlineDto,
+  UserOnlineDto,
 } from '@timelog/interfaces';
 
 const users: Record<string, string> = {};
@@ -26,7 +26,7 @@ export class OnlineGateway {
   server: Server<IClientToServerEvents, IServerToClientEvents>;
 
   @SubscribeMessage('getOnlineList')
-  async getOnlineList(): Promise<UserIdsOnlineDto> {
+  async getOnlineList(): Promise<UserOnlineDto> {
     return await this.onlineService.getOnlineList();
   }
 

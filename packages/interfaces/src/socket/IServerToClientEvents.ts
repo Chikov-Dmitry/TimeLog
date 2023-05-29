@@ -1,6 +1,6 @@
-import {UserIdsOnlineDto} from "./UserIdsOnline.dto";
+import {UserOnlineDto} from "./UserOnlineDto";
 
 export interface IServerToClientEvents {
-    onlineList: (list: UserIdsOnlineDto)=>void,
+    onlineList: (list: UserOnlineDto)=>void,
     log: (log: string)=>void
 }

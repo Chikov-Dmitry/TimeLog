@@ -16,9 +16,8 @@ socket.on('connect_error', (error) => {
   throw error
 })
 socket.on('disconnect', function () {
-    console.log('Disconnected')
+  console.log('Disconnected')
 })
 socket.on('log', (data) => {
   console.log('log', data)
 })
-

@@ -18,6 +18,7 @@ import Toast from 'primevue/toast'
 import Tooltip from 'primevue/tooltip'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+import ProgressBar from 'primevue/progressbar'
 
 const app = createApp(App)
 
@@ -34,5 +35,6 @@ app.component('pButton', Button)
 app.component('pToast', Toast)
 app.component('pDataTable', DataTable)
 app.component('pColumn', Column)
+app.component('pProgressBar', ProgressBar)
 
 app.mount('#app')
