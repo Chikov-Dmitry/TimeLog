@@ -79,8 +79,8 @@ async function logoutClick() {
   }
 }
 
-function settingsClick(){
-  router.push({name: 'settings'})
+function settingsClick() {
+  router.push({ name: 'settings' })
 }
 
 const onTopBarMenuButton = () => {

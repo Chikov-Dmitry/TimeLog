@@ -1,15 +1,16 @@
 import {
-  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Server } from 'socket.io';
 import { OnlineService } from './online.service';
+import {
+  IClientToServerEvents,
+  IServerToClientEvents,
+  UserIdsOnlineDto,
+} from '@timelog/interfaces';
 
 const users: Record<string, string> = {};
 
@@ -22,19 +23,11 @@ export class OnlineGateway {
   constructor(private readonly onlineService: OnlineService) {}
 
   @WebSocketServer()
-  server: Server;
+  server: Server<IClientToServerEvents, IServerToClientEvents>;
 
-  @SubscribeMessage('events')
-  findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
-    console.log(data);
-    return from([1, 2, 3]).pipe(
-      map((item) => ({ event: 'events', data: item })),
-    );
-  }
-
-  @SubscribeMessage('identity')
-  async identity(@MessageBody() data: number): Promise<number> {
-    return data;
+  @SubscribeMessage('getOnlineList')
+  async getOnlineList(): Promise<UserIdsOnlineDto> {
+    return await this.onlineService.getOnlineList();
   }
 
   async handleConnection(client: Socket) {
@@ -43,6 +36,8 @@ export class OnlineGateway {
     users[socketId] = userId;
     await this.onlineService.addToOnline(userId);
     client.broadcast.emit('log', `${userId} connected`);
+
+    this.server.emit('onlineList', await this.onlineService.getOnlineList());
   }
 
   async handleDisconnect(client: Socket) {
@@ -52,5 +47,7 @@ export class OnlineGateway {
     await this.onlineService.deleteFromOnline(userId);
 
     client.broadcast.emit('log', `${userId} disconnected`);
+
+    this.server.emit('onlineList', await this.onlineService.getOnlineList());
   }
 }

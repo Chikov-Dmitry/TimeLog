@@ -16,6 +16,8 @@ import Button from 'primevue/button'
 import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
 import Tooltip from 'primevue/tooltip'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 
 const app = createApp(App)
 
@@ -30,5 +32,7 @@ app.component('pInputText', InputText)
 app.component('pPassword', Password)
 app.component('pButton', Button)
 app.component('pToast', Toast)
+app.component('pDataTable', DataTable)
+app.component('pColumn', Column)
 
 app.mount('#app')
