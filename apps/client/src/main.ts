@@ -18,8 +18,7 @@ import Tooltip from 'primevue/tooltip'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import ProgressBar from 'primevue/progressbar'
-import Checkbox from 'primevue/checkbox';
-
+import Checkbox from 'primevue/checkbox'
 
 const app = createApp(App)
 

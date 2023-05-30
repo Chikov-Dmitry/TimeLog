@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { enumStatusLoad } from '@/common/enumStatusLoad'
 import { IAuthUserResponseDto, ICreateUserRequestDto } from '@timelog/interfaces'
 import AuthApi from '@/api/auth.api'
-import {setTypedLStorageItem} from "@/common/typedLocalStorage";
+import { setTypedLStorageItem } from '@/common/typedLocalStorage'
 
 export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = ref(false)

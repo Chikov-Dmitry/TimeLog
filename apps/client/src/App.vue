@@ -4,11 +4,10 @@ import { onBeforeMount, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import { socket } from '@/api/socket'
-import {getTypedLStorageItem, setTypedLStorageItem} from "@/common/typedLocalStorage";
-import {usePrimeVue} from "primevue/config";
+import { getTypedLStorageItem, setTypedLStorageItem } from '@/common/typedLocalStorage'
+import { usePrimeVue } from 'primevue/config'
 
-const PrimeVue = usePrimeVue();
-
+const PrimeVue = usePrimeVue()
 
 const authStore = useAuthStore()
 const { userId } = storeToRefs(authStore)
@@ -37,17 +36,16 @@ onBeforeMount(() => {
 
   //setting and getting theme
   const theme = getTypedLStorageItem('theme')
-  if(!theme){
-    setTypedLStorageItem('theme', {name: 'light-blue', mode: 'light'})
+  if (!theme) {
+    setTypedLStorageItem('theme', { name: 'light-blue', mode: 'light' })
   }
-  if(theme){
+  if (theme) {
     //ts swears that there is no property changeTheme, but it works
     // @ts-ignore
-    PrimeVue.changeTheme('light-blue', theme.name, 'theme-css', () => {});
+    PrimeVue.changeTheme('light-blue', theme.name, 'theme-css', () => {})
 
     setTypedLStorageItem('theme', theme)
   }
-
 
   if (import.meta.env.PROD) {
     window.addEventListener('beforeunload', function (e) {

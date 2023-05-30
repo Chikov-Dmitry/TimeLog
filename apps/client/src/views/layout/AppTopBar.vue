@@ -50,7 +50,7 @@ import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useLayout } from '@/views/layout/composables/layout'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-import {removeTypedLStorageItem, setTypedLStorageItem} from "@/common/typedLocalStorage";
+import { removeTypedLStorageItem } from '@/common/typedLocalStorage'
 
 const router = useRouter()
 

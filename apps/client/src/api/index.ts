@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getTypedLStorageItem, setTypedLStorageItem} from "@/common/typedLocalStorage";
+import { getTypedLStorageItem, setTypedLStorageItem } from '@/common/typedLocalStorage'
 
 export const API_URL = import.meta.env.VITE_API_URL
 

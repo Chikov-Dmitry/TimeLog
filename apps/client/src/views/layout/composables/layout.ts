@@ -3,7 +3,7 @@ import { toRefs, reactive, computed } from 'vue'
 const mobileBreakpoint = 991
 
 export interface ITheme {
-  name: 'light-blue' | 'dark-blue',
+  name: 'light-blue' | 'dark-blue'
   mode: 'light' | 'dark'
 }
 
