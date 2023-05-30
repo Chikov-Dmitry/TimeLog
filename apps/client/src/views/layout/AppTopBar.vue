@@ -50,6 +50,7 @@ import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useLayout } from '@/views/layout/composables/layout'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import {removeTypedLStorageItem, setTypedLStorageItem} from "@/common/typedLocalStorage";
 
 const router = useRouter()
 
@@ -73,7 +74,7 @@ onBeforeUnmount(() => {
 async function logoutClick() {
   try {
     await logout()
-    localStorage.removeItem('token')
+    removeTypedLStorageItem('token')
     await router.push({ name: 'signIn' })
   } catch (e) {
     console.warn(e)

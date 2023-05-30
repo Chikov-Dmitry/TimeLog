@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { enumStatusLoad } from '@/common/enumStatusLoad'
 import { IAuthUserResponseDto, ICreateUserRequestDto } from '@timelog/interfaces'
 import AuthApi from '@/api/auth.api'
+import {setTypedLStorageItem} from "@/common/typedLocalStorage";
 
 export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = ref(false)
@@ -49,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
     statusLoad.value = enumStatusLoad.LOADING
     try {
       const response = await AuthApi.refresh()
-      localStorage.setItem('token', response.data.tokens.accessToken)
+      setTypedLStorageItem('token', response.data.tokens.accessToken)
       isAuthenticated.value = true
       user.value = response.data
       statusLoad.value = enumStatusLoad.LOADED

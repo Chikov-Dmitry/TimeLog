@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {getTypedLStorageItem, setTypedLStorageItem} from "@/common/typedLocalStorage";
 
 export const API_URL = import.meta.env.VITE_API_URL
 
@@ -8,7 +9,7 @@ const ApiInstance = axios.create({
 })
 
 ApiInstance.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+  config.headers.Authorization = `Bearer ${getTypedLStorageItem('token')}`
   return config
 })
 
@@ -22,7 +23,7 @@ ApiInstance.interceptors.response.use(
       originalRequest._isRetry = true
       try {
         const response = await axios.get(`${API_URL}auth/refresh`, { withCredentials: true })
-        localStorage.setItem('token', response.data.tokens.accessToken)
+        setTypedLStorageItem('token', response.data.tokens.accessToken)
         return ApiInstance.request(originalRequest)
       } catch (e) {
         console.warn('authentication failed')

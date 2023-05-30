@@ -4,6 +4,7 @@ import { onBeforeMount, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import { socket } from '@/api/socket'
+import {getTypedLStorageItem, setTypedLStorageItem} from "@/common/typedLocalStorage";
 
 const authStore = useAuthStore()
 const { userId } = storeToRefs(authStore)
@@ -20,13 +21,14 @@ watch(userId, (newVal) => {
 })
 
 onBeforeMount(() => {
-  const LsDeviceId = localStorage.getItem('deviceId')
+  const LsDeviceId = getTypedLStorageItem('deviceId')
   authStore.deviceId = LsDeviceId ? LsDeviceId : ''
 
   if (!LsDeviceId) {
     const deviceId = v4()
     authStore.deviceId = deviceId
-    localStorage.setItem('deviceId', deviceId)
+    setTypedLStorageItem('deviceId', deviceId)
+    setTypedLStorageItem('deviceId', deviceId)
   }
   if (import.meta.env.PROD) {
     window.addEventListener('beforeunload', function (e) {
