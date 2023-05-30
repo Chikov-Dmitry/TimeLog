@@ -2,12 +2,17 @@ import { toRefs, reactive, computed } from 'vue'
 
 const mobileBreakpoint = 991
 
+export interface ITheme {
+  name: 'light-blue' | 'dark-blue',
+  mode: 'light' | 'dark'
+}
+
 const layoutConfig = reactive({
   ripple: false,
   darkTheme: false,
   inputStyle: 'outlined',
   menuMode: 'static',
-  theme: 'lara-light-blue',
+  theme: 'light-blue',
   scale: 14
 })
 
@@ -22,11 +27,6 @@ const layoutState = reactive({
 })
 
 export function useLayout() {
-  const changeThemeSettings = (theme: string, darkTheme: boolean) => {
-    layoutConfig.darkTheme = darkTheme
-    layoutConfig.theme = theme
-  }
-
   const setScale = (scale: number) => {
     layoutConfig.scale = scale
   }
@@ -56,7 +56,6 @@ export function useLayout() {
   return {
     layoutConfig: toRefs(layoutConfig),
     layoutState: toRefs(layoutState),
-    changeThemeSettings,
     setScale,
     onMenuToggle,
     isSidebarActive,

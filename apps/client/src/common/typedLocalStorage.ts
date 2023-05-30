@@ -1,7 +1,9 @@
+import {ITheme} from "@/views/layout/composables/layout";
+
 interface LocalStorageSchema {
     token: string
     deviceId: string
-    theme: 'light' | 'dark'
+    theme: ITheme
 }
 
 export const setTypedLStorageItem = <T extends keyof LocalStorageSchema>(key: T, value: LocalStorageSchema[T]): void => {

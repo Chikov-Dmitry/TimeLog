@@ -2,31 +2,31 @@
   <div class="card">
     <div class="text-xl font-semibold ml-2 mb-4">Тема</div>
     <div class="flex justify-content-center gap-3">
-      <p-button :disabled="themeMode === 'light'" label="Светлая"  @click="onChangeTheme('light')"/>
-      <p-button :disabled="themeMode === 'dark'" label="Темная" severity="secondary"  @click="onChangeTheme('dark')"/>
+      <p-button label="Светлая"  @click="onChangeTheme({name: 'light-blue', mode: 'light'})"/>
+      <p-button label="Темная" severity="secondary"  @click="onChangeTheme({name: 'dark-blue', mode: 'dark'})"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
-import { usePrimeVue } from 'primevue/config';
+import {ITheme} from "@/views/layout/composables/layout";
+import {usePrimeVue} from "primevue/config";
+import {getTypedLStorageItem, setTypedLStorageItem} from "@/common/typedLocalStorage";
+
 const PrimeVue = usePrimeVue();
 
 const themeMode = ref<"light"| "dark">('light')
 
-const onChangeTheme = (mode: 'light' | 'dark') => {
+
+
+const onChangeTheme = (theme: ITheme) => {
+  const currentTheme = getTypedLStorageItem('theme')
   //ts swears that there is no property changeTheme, but it works
-  if(mode === 'light') {
-    themeMode.value = 'light'
-    PrimeVue.changeTheme('dark-blue', 'light-blue', 'theme-css', () => {});
-  }
-  if(mode === 'dark'){
-    themeMode.value = 'dark'
-    PrimeVue.changeTheme('light-blue', 'dark-blue', 'theme-css', () => {});
-  }
+  // @ts-ignore
+  PrimeVue.changeTheme(currentTheme.name, theme.name, 'theme-css', () => {});
 
-
+  setTypedLStorageItem('theme', theme)
 };
 </script>
 
