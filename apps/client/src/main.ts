@@ -1,5 +1,4 @@
 import './assets/main.scss'
-import 'primevue/resources/themes/lara-light-blue/theme.css'
 import 'primevue/resources/primevue.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 
@@ -19,6 +18,8 @@ import Tooltip from 'primevue/tooltip'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import ProgressBar from 'primevue/progressbar'
+import Checkbox from 'primevue/checkbox';
+
 
 const app = createApp(App)
 
@@ -36,5 +37,6 @@ app.component('pToast', Toast)
 app.component('pDataTable', DataTable)
 app.component('pColumn', Column)
 app.component('pProgressBar', ProgressBar)
+app.component('pCheckbox', Checkbox)
 
 app.mount('#app')
