@@ -1,4 +1,4 @@
-@import '_variables.scss';
+@import '@/assets/variables.scss';
 
 /* Utils */
 .card {
@@ -8,8 +8,4 @@
   margin-bottom: 0.5rem;
   box-shadow: var(--card-shadow);
   border-radius: $borderRadius;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
