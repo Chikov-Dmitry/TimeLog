@@ -6,6 +6,7 @@ export type {ILoginUserRequestDto} from "./src/dtoInterface/ILoginUser.request.d
 export type {IAuthUserResponseDto} from "./src/dtoInterface/IAuthUser.response.dto"
 export type {ILogoutUserRequestDto} from "./src/dtoInterface/ILogoutUser.request.dto"
 export type {ITimeLogDto} from "./src/dtoInterface/ITimeLog.dto"
+export type {ITimeLogResponseDto} from "./src/dtoInterface/ITimeLog.response.dto"
 
 export type {IServerToClientEvents} from "./src/socket/IServerToClientEvents"
 export type {IClientToServerEvents} from "./src/socket/IClientToServerEvents"

@@ -5,6 +5,8 @@ import { Model } from 'mongoose';
 import { CreateTimeLogDto } from './dto/createTimeLog.dto';
 import { StopTimeLogDto } from './dto/stopTimeLog.dto';
 import { EditTimeLogDto } from './dto/editTimeLog.dto';
+import { ResponseTimeLogDto } from './dto/responseTimeLog.dto';
+import {ITimeLogResponseDto} from "@timelog/interfaces";
 
 @Injectable()
 export class TimeLogService {
@@ -16,9 +18,17 @@ export class TimeLogService {
 
   async createLogEntry(data: CreateTimeLogDto) {
     try {
-      return await this.model.create(data);
+      await this.isAlreadyExistNotStoppedLog(data.user);
+      const log = await this.model.create(data);
+      const { id, user, startDate, endDate } = log;
+      return new ResponseTimeLogDto({
+        id: id,
+        userId: user.toString(),
+        startDate: startDate,
+        endDate: endDate,
+      });
     } catch (e) {
-      throw new BadRequestException('Ошибка создания записи', {
+      throw new BadRequestException(e.message || 'Ошибка создания записи', {
         cause: e,
         description: 'createLogEntry',
       });
@@ -29,10 +39,16 @@ export class TimeLogService {
     try {
       const log = await this.findLogById(logId);
       await this.isLogEntryAlreadyFinished(logId);
-      this.isEndDateMoreStartDate(data.endDate, log.startDate.getTime());
-      log.endDate = new Date(Number(data.endDate));
+      this.isEndDateMoreStartDate(data.endDate, log.startDate);
+      log.endDate = data.endDate;
       await log.save();
-      return log;
+      const { id, user, startDate, endDate } = log;
+      return new ResponseTimeLogDto({
+        id: id,
+        userId: user.toString(),
+        startDate: startDate,
+        endDate: endDate,
+      });
     } catch (e) {
       throw new BadRequestException('Ошибка завершения записи', {
         cause: e,
@@ -41,22 +57,40 @@ export class TimeLogService {
     }
   }
 
+  async getStartedButNotStoppedLog(
+    userId: string,
+  ): Promise<ITimeLogResponseDto | null> {
+    const logs = await this.model.find({ user: userId });
+    if (!logs.length) return null;
+    const notStoppedLog = await this.model
+      .find({ user: userId })
+      .exists('endDate', false);
+    if (!notStoppedLog.length) return null;
+    const { id, user, startDate, endDate } = notStoppedLog[0];
+    return new ResponseTimeLogDto({
+      id: id,
+      userId: user.toString(),
+      startDate: startDate,
+      endDate: endDate,
+    });
+  }
+
   async editLogEntry(data: EditTimeLogDto, logId: string) {
     try {
       const log = await this.findLogById(logId);
 
       if (data.startDate && !data.endDate) {
-        this.isEndDateMoreStartDate(log.endDate.getTime(), data.startDate);
-        log.startDate = new Date(Number(data.startDate));
+        this.isEndDateMoreStartDate(log.endDate, data.startDate);
+        log.startDate = data.startDate;
       }
       if (data.endDate && !data.startDate) {
-        this.isEndDateMoreStartDate(data.endDate, log.startDate.getTime());
-        log.endDate = new Date(Number(data.endDate));
+        this.isEndDateMoreStartDate(data.endDate, log.startDate);
+        log.endDate = data.endDate;
       }
       if (data.endDate && data.startDate) {
         this.isEndDateMoreStartDate(data.endDate, data.startDate);
-        log.endDate = new Date(data.endDate);
-        log.startDate = new Date(data.startDate);
+        log.endDate = data.endDate;
+        log.startDate = data.startDate;
       }
       await log.save();
       return log;
@@ -90,5 +124,15 @@ export class TimeLogService {
     const log = await this.findLogById(logId);
     const isEnded = log.endDate;
     if (isEnded) throw new BadRequestException('Запись уже остановлена');
+  }
+
+  async isAlreadyExistNotStoppedLog(userId) {
+    const logs = await this.model.find({ user: userId });
+    if (!logs.length) return false;
+    const existNotStoppedLog = await this.model
+      .find({ user: userId })
+      .exists('endDate', false);
+    if (existNotStoppedLog.length)
+      throw new BadRequestException('Уже существует не остановленная запись');
   }
 }

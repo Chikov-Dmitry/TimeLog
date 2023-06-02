@@ -9,11 +9,11 @@ export class TimeLog {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   user: User;
 
-  @Prop({ type: mongoose.Schema.Types.Date, required: true })
-  startDate: Date;
+  @Prop({ required: true })
+  startDate: string;
 
-  @Prop({ type: mongoose.Schema.Types.Date, required: false })
-  endDate?: Date;
+  @Prop({ required: false })
+  endDate?: string;
 }
 
 export const TimeLogSchema = SchemaFactory.createForClass(TimeLog);

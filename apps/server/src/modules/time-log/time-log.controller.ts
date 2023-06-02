@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { TimeLogService } from './time-log.service';
 import { CreateTimeLogDto } from './dto/createTimeLog.dto';
 import { EditTimeLogDto } from './dto/editTimeLog.dto';
 import { StopTimeLogDto } from './dto/stopTimeLog.dto';
+import {ITimeLogResponseDto} from "@timelog/interfaces";
 
 @ApiTags('TimeLog')
 @Controller('time-log')
@@ -11,7 +12,7 @@ export class TimeLogController {
   constructor(private readonly timeLogService: TimeLogService) {}
 
   @Post('create')
-  createLogEntry(@Body() data: CreateTimeLogDto) {
+  createLogEntry(@Body() data: CreateTimeLogDto): Promise<ITimeLogResponseDto> {
     const { user, startDate, endDate } = data;
     return this.timeLogService.createLogEntry({ user, startDate, endDate });
   }
@@ -20,6 +21,11 @@ export class TimeLogController {
   stopLogEntry(@Body() data: StopTimeLogDto, @Param('logID') logID: string) {
     const { endDate } = data;
     return this.timeLogService.stopLogEntry({ endDate }, logID);
+  }
+
+  @Get('started-log/:userId')
+  startedButNotStopped(@Param('userId') userId: string) {
+    return this.timeLogService.getStartedButNotStoppedLog(userId);
   }
 
   @Post('edit/:logID')
