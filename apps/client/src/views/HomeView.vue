@@ -3,8 +3,7 @@
     <div class="grid mb-5">
       <div class="col-12 sm:col-6 md:col-4">
         <div class="card h-full flex flex-column justify-content-center today-card">
-          <div class="text-3xl font-bold">Сегодня</div>
-          <div class="text-xl font-semibold">Пон 22, 2021 | 10:00</div>
+          <today-info />
         </div>
       </div>
       <div class="col-12 sm:col-6 md:col-4 md:col-offset-4">
@@ -64,6 +63,7 @@
 
 <script setup lang="ts">
 import TimerBtn from '@/components/TimerBtn.vue'
+import TodayInfo from '@/components/TodayInfo.vue'
 </script>
 
 <style scoped lang="scss">

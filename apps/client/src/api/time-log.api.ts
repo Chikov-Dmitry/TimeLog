@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import {ITimeLogDto, ITimeLogResponseDto} from '@timelog/interfaces'
+import { ITimeLogDto, ITimeLogResponseDto } from '@timelog/interfaces'
 import ApiInstance from '@/api/index'
 
 export default class TimeLogApi {
