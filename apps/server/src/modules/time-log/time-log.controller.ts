@@ -4,7 +4,10 @@ import { TimeLogService } from './time-log.service';
 import { CreateTimeLogDto } from './dto/createTimeLog.dto';
 import { EditTimeLogDto } from './dto/editTimeLog.dto';
 import { StopTimeLogDto } from './dto/stopTimeLog.dto';
-import {ITimeLogResponseDto} from "@timelog/interfaces";
+import {
+  ITimeLogResponseDto,
+  ITimeLogsByTimeRangeRequest,
+} from '@timelog/interfaces';
 
 @ApiTags('TimeLog')
 @Controller('time-log')
@@ -37,5 +40,10 @@ export class TimeLogController {
   @Delete('delete/:logID')
   deleteLogEntry(@Param('logID') logID: string) {
     return this.timeLogService.deleteLogEntry(logID);
+  }
+
+  @Post('logs-by-time-range')
+  getLogsByTimeRange(@Body() data: ITimeLogsByTimeRangeRequest) {
+    return this.timeLogService.getLogsByTimeRange(data);
   }
 }

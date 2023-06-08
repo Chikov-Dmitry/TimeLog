@@ -6,7 +6,10 @@ import { CreateTimeLogDto } from './dto/createTimeLog.dto';
 import { StopTimeLogDto } from './dto/stopTimeLog.dto';
 import { EditTimeLogDto } from './dto/editTimeLog.dto';
 import { ResponseTimeLogDto } from './dto/responseTimeLog.dto';
-import {ITimeLogResponseDto} from "@timelog/interfaces";
+import {
+  ITimeLogResponseDto,
+  ITimeLogsByTimeRangeRequest,
+} from '@timelog/interfaces';
 
 @Injectable()
 export class TimeLogService {
@@ -112,6 +115,30 @@ export class TimeLogService {
         description: 'deleteLogEntry',
       });
     }
+  }
+
+  async getLogsByTimeRange(
+    data: ITimeLogsByTimeRangeRequest,
+  ): Promise<ResponseTimeLogDto[]> {
+    try {
+      const logs = await this.model.find({
+        user: data.userId,
+        startDate: { $gte: data.startTimestamp, $lte: data.endTimestamp },
+      });
+      const res: ResponseTimeLogDto[] = [];
+      logs.forEach((log) => {
+        const { id, user, startDate, endDate } = log;
+        res.push(
+          new ResponseTimeLogDto({
+            id: id,
+            userId: user.toString(),
+            startDate: startDate,
+            endDate: endDate,
+          }),
+        );
+      });
+      return res;
+    } catch (e) {}
   }
 
   isEndDateMoreStartDate(endDate: string | number, startDate: string | number) {

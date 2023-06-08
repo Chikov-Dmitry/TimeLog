@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { ITimeLogDto, ITimeLogResponseDto } from '@timelog/interfaces'
+import { ITimeLogDto, ITimeLogResponseDto, ITimeLogsByTimeRangeRequest } from '@timelog/interfaces'
 import ApiInstance from '@/api/index'
 
 export default class TimeLogApi {
@@ -18,5 +18,11 @@ export default class TimeLogApi {
     userId: string
   ): Promise<AxiosResponse<ITimeLogResponseDto | null>> {
     return ApiInstance.get(`time-log/started-log/${userId}`)
+  }
+
+  static async getLogsByTimeRange(
+    data: ITimeLogsByTimeRangeRequest
+  ): Promise<AxiosResponse<ITimeLogResponseDto[]>> {
+    return ApiInstance.post('time-log/logs-by-time-range', data)
   }
 }

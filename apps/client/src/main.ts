@@ -19,6 +19,7 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import ProgressBar from 'primevue/progressbar'
 import Checkbox from 'primevue/checkbox'
+import ProgressSpinner from 'primevue/progressspinner'
 
 const app = createApp(App)
 
@@ -37,5 +38,6 @@ app.component('pDataTable', DataTable)
 app.component('pColumn', Column)
 app.component('pProgressBar', ProgressBar)
 app.component('pCheckbox', Checkbox)
+app.component('pProgressSpinner', ProgressSpinner)
 
 app.mount('#app')

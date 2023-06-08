@@ -6,6 +6,7 @@
     class="timer-btn"
     :icon="btnIcon"
     style="font-size: 3rem; width: 60px; height: 60px"
+    :severity="!isStarted ? 'success' : 'danger'"
   />
 </template>
 
