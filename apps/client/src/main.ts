@@ -20,6 +20,7 @@ import Column from 'primevue/column'
 import ProgressBar from 'primevue/progressbar'
 import Checkbox from 'primevue/checkbox'
 import ProgressSpinner from 'primevue/progressspinner'
+import Chart from 'primevue/chart'
 
 const app = createApp(App)
 
@@ -39,5 +40,6 @@ app.component('pColumn', Column)
 app.component('pProgressBar', ProgressBar)
 app.component('pCheckbox', Checkbox)
 app.component('pProgressSpinner', ProgressSpinner)
+app.component('pChart', Chart)
 
 app.mount('#app')

@@ -25,6 +25,11 @@
         <total-time-card title="Сегодня" for="day" />
       </div>
     </div>
+    <div class="grid">
+      <div class="col-12">
+        <day-chart />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,6 +37,7 @@
 import TimerBtn from '@/components/TimerBtn.vue'
 import TodayInfo from '@/components/TodayInfo.vue'
 import TotalTimeCard from '@/components/TotalTimeCard.vue'
+import DayChart from '@/components/DayChart.vue'
 </script>
 
 <style scoped lang="scss">
