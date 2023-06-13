@@ -4,7 +4,7 @@
   "description": "interfaces for TimeLog apps",
   "main": "index.ts",
   "scripts": {
-    "lint": "eslint \"**/*.ts*\""
+    "lint": "eslint \"**/*.ts*\" --fix"
   },
   "keywords": [
     "interfaces"
