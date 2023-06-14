@@ -24,13 +24,14 @@ jobs:
         run: npm install
 
       - name: lint code
-        run: npm run lint
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          prettier: true
 
       - name: Test
         run: npm run test:unit
 
-      - name: Format
-        run: npm run format
 
       - name: build project
         run: npm run build
