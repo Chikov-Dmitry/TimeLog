@@ -12,6 +12,9 @@
     "test:unit": {
       "outputs": []
     },
+    "format": {
+      "outputs": []
+    },
     "dev": {
       "cache": false
     }
