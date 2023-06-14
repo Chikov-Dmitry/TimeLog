@@ -1,9 +1,9 @@
 export interface ICreateUserRequestDto {
-    name: string;
-    surname: string;
-    patronymic: string;
-    email: string;
-    password: string;
-    deviceId: string
-    roles?: string[]
+  name: string;
+  surname: string;
+  patronymic: string;
+  email: string;
+  password: string;
+  deviceId: string;
+  roles?: string[];
 }

@@ -1,8 +1,7 @@
 export interface IPatchUserRequestDto {
-    name: string;
+  name: string;
 
-    surname: string;
+  surname: string;
 
-    patronymic: string;
-
+  patronymic: string;
 }

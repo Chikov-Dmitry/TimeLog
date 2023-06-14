@@ -1,5 +1,4 @@
 export interface ILogoutUserRequestDto {
-    id: string,
-    deviceId: string,
-
+  id: string;
+  deviceId: string;
 }

@@ -1,6 +1,5 @@
 export interface ILoginUserRequestDto {
-    email: string,
-    password: string,
-    deviceId: string
-
+  email: string;
+  password: string;
+  deviceId: string;
 }
