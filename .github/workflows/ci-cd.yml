@@ -24,14 +24,18 @@ jobs:
         run: npm install
 
       - name: lint code
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true
+        run: npm run lint
 
       - name: Test
         run: npm run test:unit
 
+      - name: Format
+        run: npm run format
 
       - name: build project
         run: npm run build
+
+      - run: git status
+        uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
