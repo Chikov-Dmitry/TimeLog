@@ -31,7 +31,7 @@ const date = ref<dateObj>({
   minute: 0
 })
 
-const intervalId = ref(0)
+const intervalId = ref<NodeJS.Timer>()
 
 function fillDate() {
   const dt = DateTime.now()
