@@ -1,15 +1,11 @@
 import { io, Socket } from 'socket.io-client'
 import { IClientToServerEvents, IServerToClientEvents } from '@timelog/interfaces'
 
-
-import {API_URL} from "@/api/index";
-export const socket: Socket<IServerToClientEvents, IClientToServerEvents> = io(
-  API_URL,
-  {
-    query: {},
-    autoConnect: false
-  }
-)
+import { API_URL } from '@/api/index'
+export const socket: Socket<IServerToClientEvents, IClientToServerEvents> = io(API_URL, {
+  query: {},
+  autoConnect: false
+})
 
 socket.on('connect', function () {
   console.log('Connected')
