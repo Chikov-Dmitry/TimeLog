@@ -23,7 +23,7 @@ import { OnlineModule } from '../online/online.module';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: `mongodb://localhost/${configService.get('MONGO_DATABASE')}`,
+        uri: `${configService.get("MONGO_DATABASE_URL")}${configService.get('MONGO_DATABASE')}`,
         useNewUrlParser: true,
         useUnifiedTopology: true,
       }),

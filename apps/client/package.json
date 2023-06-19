@@ -27,7 +27,8 @@
     "vee-validate": "^4.9.3",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
-    "yup": "^1.1.1"
+    "yup": "^1.1.1",
+    "@timelog/interfaces": "*"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",

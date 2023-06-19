@@ -1,6 +1,42 @@
 version: "3"
 
 services:
+  #turborepo
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: dockerfiles/fe.Dockerfile
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+    environment:
+      - VITE_API_URL=$VITE_API_URL
+    restart: on-failure
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: dockerfiles/be.Dockerfile
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+    environment:
+      - PORT=$PORT
+      - JWT_ACCESS_SECRET=$JWT_ACCESS_SECRET
+      - JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET
+      - JWT_ACCESS_EXPIRES_IN=$JWT_ACCESS_EXPIRES_IN
+      - JWT_REFRESH_EXPIRES_IN=$JWT_REFRESH_EXPIRES_IN
+      - MONGODB_DATABASE=$MONGO_DATABASE
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
+    restart: on-failure
   mongodb:
     image: mongo:latest
     environment:
@@ -8,7 +44,10 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
     ports:
-      - 27017:27017
+      - "27017:27017"
     container_name: TimeLog-db
     volumes:
       - './data:/data/db'
+networks:
+  turbo-network:
+    driver: bridge
