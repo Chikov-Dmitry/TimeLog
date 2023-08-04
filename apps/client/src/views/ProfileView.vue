@@ -22,7 +22,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
 const authStore = useAuthStore()
 
 const { user } = storeToRefs(authStore)

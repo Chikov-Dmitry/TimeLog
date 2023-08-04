@@ -5,12 +5,16 @@ import { Online, OnlineDocument } from './schemas/online.schema';
 import { UserOnlineDto } from '@timelog/interfaces';
 import { UserService } from '../user/user.service';
 import { UserDto } from '../user/dto/user.dto';
+import { TimeLogService } from '../time-log/time-log.service';
 
 @Injectable()
 export class OnlineService {
   @InjectModel(Online.name) private model: Model<OnlineDocument>;
 
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly timeLogService: TimeLogService,
+  ) {}
 
   async getOnlineList(): Promise<UserOnlineDto> {
     try {
@@ -19,7 +23,12 @@ export class OnlineService {
       for (const item of res) {
         const user = await this.userService.findById(item.user.toString());
         const { id, name, surname, patronymic, email } = user;
-        userIds.push(new UserDto({ id, name, surname, patronymic, email }));
+        const userId = new UserDto({ id, name, surname, patronymic, email });
+        const log = await this.timeLogService.getStartedButNotStoppedLog(id);
+        let onWork = false;
+        if (log) onWork = true;
+
+        userIds.push({ onWork, ...userId });
       }
       return userIds;
     } catch (e) {

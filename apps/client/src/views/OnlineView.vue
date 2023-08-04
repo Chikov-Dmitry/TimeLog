@@ -9,7 +9,11 @@
       <p-column field="name" header="Имя"></p-column>
       <p-column field="patronymic" header="Отчество"></p-column>
       <p-column field="email" header="Email"></p-column>
-      <p-column field="id" header="Id"></p-column>
+      <p-column field="onWork" header="Работает">
+        <template #body="slotProps">
+          <span class="work-status-circle mdi mdi-circle" :class="[slotProps.data.onWork ? 'online' : 'offline']"/>
+        </template>
+      </p-column>
     </p-data-table>
   </div>
 </template>
@@ -20,7 +24,7 @@ import { socket } from '@/api/socket'
 import { UserOnlineDto } from '@timelog/interfaces'
 
 const users = ref<
-  { id: string; name: string; surname: string; patronymic: string; email: string }[]
+  { id: string; name: string; surname: string; patronymic: string; email: string, onWork: boolean }[]
 >([])
 const loading = ref(true)
 
@@ -46,4 +50,13 @@ onBeforeMount(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.work-status-circle{
+  &.online{
+    color: green;
+  }
+  &.offline{
+    color: red;
+  }
+}
+</style>

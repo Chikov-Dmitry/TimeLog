@@ -26,8 +26,8 @@ export class OnlineGateway {
   server: Server<IClientToServerEvents, IServerToClientEvents>;
 
   @SubscribeMessage('getOnlineList')
-  async getOnlineList(): Promise<UserOnlineDto> {
-    return await this.onlineService.getOnlineList();
+  getOnlineList(): Promise<UserOnlineDto> {
+    return this.onlineService.getOnlineList();
   }
 
   async handleConnection(client: Socket) {

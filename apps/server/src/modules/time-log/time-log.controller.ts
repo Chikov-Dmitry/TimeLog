@@ -8,22 +8,42 @@ import {
   ITimeLogResponseDto,
   ITimeLogsByTimeRangeRequest,
 } from '@timelog/interfaces';
+import { OnlineGateway } from '../online/online.gateway';
 
 @ApiTags('TimeLog')
 @Controller('time-log')
 export class TimeLogController {
-  constructor(private readonly timeLogService: TimeLogService) {}
+  constructor(
+    private readonly timeLogService: TimeLogService,
+    private readonly onlineGateway: OnlineGateway,
+  ) {}
 
   @Post('create')
-  createLogEntry(@Body() data: CreateTimeLogDto): Promise<ITimeLogResponseDto> {
+  async createLogEntry(
+    @Body() data: CreateTimeLogDto,
+  ): Promise<ITimeLogResponseDto> {
     const { user, startDate, endDate } = data;
-    return this.timeLogService.createLogEntry({ user, startDate, endDate });
+
+    const log = this.timeLogService.createLogEntry({
+      user,
+      startDate,
+      endDate,
+    });
+    const onlineList = await this.onlineGateway.getOnlineList();
+    this.onlineGateway.server.emit('onlineList', onlineList);
+    return log;
   }
 
   @Post('stop/:logID')
-  stopLogEntry(@Body() data: StopTimeLogDto, @Param('logID') logID: string) {
+  async stopLogEntry(
+    @Body() data: StopTimeLogDto,
+    @Param('logID') logID: string,
+  ) {
     const { endDate } = data;
-    return this.timeLogService.stopLogEntry({ endDate }, logID);
+    const log = this.timeLogService.stopLogEntry({ endDate }, logID);
+    const onlineList = await this.onlineGateway.getOnlineList();
+    this.onlineGateway.server.emit('onlineList', onlineList);
+    return log;
   }
 
   @Get('started-log/:userId')
