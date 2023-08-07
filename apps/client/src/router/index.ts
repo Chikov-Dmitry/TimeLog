@@ -7,6 +7,7 @@ import AppLayout from '@/views/layout/AppLayout.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import OnlineView from '@/views/OnlineView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import AtWorkView from "@/views/AtWorkView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,7 +36,12 @@ const router = createRouter({
           path: '/profile',
           name: 'profile',
           component: ProfileView
-        }
+        },
+        {
+          path: '/atwork',
+          name: 'atwork',
+          component: AtWorkView
+        },
       ]
     },
     {

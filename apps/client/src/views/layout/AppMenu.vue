@@ -14,6 +14,7 @@ export type menuItem = { label: string; icon: string; to: string }
 
 const menuItems = ref<menuItem[]>([
   { label: 'Доска', icon: 'mdi mdi-home-outline', to: '/' },
+  { label: 'За работой', icon: 'mdi mdi-briefcase-outline', to: '/atwork' },
   { label: 'Онлайн', icon: 'mdi mdi-record-circle-outline', to: '/online' },
   { label: 'Профиль', icon: 'mdi mdi-account-outline', to: '/profile' },
   { label: 'Настройки', icon: 'mdi mdi-cog-outline', to: '/settings' }
