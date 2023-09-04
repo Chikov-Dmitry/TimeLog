@@ -8,14 +8,14 @@ import {
   ITimeLogResponseDto,
   ITimeLogsByTimeRangeRequest,
 } from '@timelog/interfaces';
-import { OnlineGateway } from '../online/online.gateway';
+import { AtWorkService } from '../at-work/at-work.service';
 
 @ApiTags('TimeLog')
 @Controller('time-log')
 export class TimeLogController {
   constructor(
     private readonly timeLogService: TimeLogService,
-    private readonly onlineGateway: OnlineGateway,
+    private readonly atWorkService: AtWorkService,
   ) {}
 
   @Post('create')
@@ -29,8 +29,7 @@ export class TimeLogController {
       startDate,
       endDate,
     });
-    const onlineList = await this.onlineGateway.getOnlineList();
-    this.onlineGateway.server.emit('onlineList', onlineList);
+    await this.atWorkService.addToAtWork(user);
     return log;
   }
 
@@ -40,9 +39,9 @@ export class TimeLogController {
     @Param('logID') logID: string,
   ) {
     const { endDate } = data;
-    const log = this.timeLogService.stopLogEntry({ endDate }, logID);
-    const onlineList = await this.onlineGateway.getOnlineList();
-    this.onlineGateway.server.emit('onlineList', onlineList);
+    const log = await this.timeLogService.stopLogEntry({ endDate }, logID);
+    await this.atWorkService.deleteFromAtWork(log.userId);
+
     return log;
   }
 

@@ -78,6 +78,18 @@ export class TimeLogService {
     });
   }
 
+  async getAllStartedButNotStoppedLog(): Promise<ITimeLogResponseDto> {
+    const notStoppedLog = await this.model.find().exists('endDate', false);
+    if (!notStoppedLog.length) return null;
+    const { id, user, startDate, endDate } = notStoppedLog[0];
+    return new ResponseTimeLogDto({
+      id: id,
+      userId: user.toString(),
+      startDate: startDate,
+      endDate: endDate,
+    });
+  }
+
   async editLogEntry(data: EditTimeLogDto, logId: string) {
     try {
       const log = await this.findLogById(logId);

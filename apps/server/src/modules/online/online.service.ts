@@ -1,11 +1,16 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Online, OnlineDocument } from './schemas/online.schema';
 import { UserOnlineDto } from '@timelog/interfaces';
 import { UserService } from '../user/user.service';
 import { UserDto } from '../user/dto/user.dto';
-import { TimeLogService } from '../time-log/time-log.service';
+import { AtWorkService } from '../at-work/at-work.service';
 
 @Injectable()
 export class OnlineService {
@@ -13,7 +18,8 @@ export class OnlineService {
 
   constructor(
     private readonly userService: UserService,
-    private readonly timeLogService: TimeLogService,
+    @Inject(forwardRef(() => AtWorkService))
+    private readonly atWorkService: AtWorkService,
   ) {}
 
   async getOnlineList(): Promise<UserOnlineDto> {
@@ -24,9 +30,9 @@ export class OnlineService {
         const user = await this.userService.findById(item.user.toString());
         const { id, name, surname, patronymic, email } = user;
         const userId = new UserDto({ id, name, surname, patronymic, email });
-        const log = await this.timeLogService.getStartedButNotStoppedLog(id);
+        const isWorking = await this.atWorkService.isUserWorking(id);
         let onWork = false;
-        if (log) onWork = true;
+        if (isWorking) onWork = true;
 
         userIds.push({ onWork, ...userId });
       }
@@ -61,6 +67,17 @@ export class OnlineService {
       throw new BadRequestException('Ошибка удаления записи', {
         cause: e,
         description: 'deleteFromOnline',
+      });
+    }
+  }
+
+  async isUserOnline(userId: string) {
+    try {
+      return await this.model.findOne({ user: userId });
+    } catch (e) {
+      throw new BadRequestException('Ошибка поиска записи', {
+        cause: e,
+        description: 'isUserOnline',
       });
     }
   }

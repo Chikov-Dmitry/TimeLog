@@ -12,6 +12,7 @@ import { AccessTokenGuard } from '../../common/guards/accessToken.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { TimeLogModule } from '../time-log/time-log.module';
 import { OnlineModule } from '../online/online.module';
+import { AtWorkModule } from '../at-work/at-work.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { OnlineModule } from '../online/online.module';
     TokenModule,
     TimeLogModule,
     OnlineModule,
+    AtWorkModule,
   ],
   controllers: [AppController],
   providers: [

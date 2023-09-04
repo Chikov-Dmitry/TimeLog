@@ -11,6 +11,7 @@ import {
   IServerToClientEvents,
   UserOnlineDto,
 } from '@timelog/interfaces';
+import { AtWorkGateway } from '../at-work/at-work.gateway';
 
 const users: Record<string, string> = {};
 
@@ -20,7 +21,10 @@ const users: Record<string, string> = {};
   },
 })
 export class OnlineGateway {
-  constructor(private readonly onlineService: OnlineService) {}
+  constructor(
+    private readonly onlineService: OnlineService,
+    private readonly atWorkGateway: AtWorkGateway,
+  ) {}
 
   @WebSocketServer()
   server: Server<IClientToServerEvents, IServerToClientEvents>;
@@ -38,6 +42,7 @@ export class OnlineGateway {
     client.broadcast.emit('log', `${userId} connected`);
 
     this.server.emit('onlineList', await this.onlineService.getOnlineList());
+    await this.atWorkGateway.getAtWorkList();
   }
 
   async handleDisconnect(client: Socket) {
@@ -49,5 +54,6 @@ export class OnlineGateway {
     client.broadcast.emit('log', `${userId} disconnected`);
 
     this.server.emit('onlineList', await this.onlineService.getOnlineList());
+    await this.atWorkGateway.getAtWorkList();
   }
 }

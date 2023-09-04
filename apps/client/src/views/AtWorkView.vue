@@ -9,9 +9,12 @@
       <p-column field="name" header="Имя"></p-column>
       <p-column field="patronymic" header="Отчество"></p-column>
       <p-column field="email" header="Email"></p-column>
-      <p-column field="onWork" header="Работает">
+      <p-column field="onWork" header="Онлайн">
         <template #body="slotProps">
-          <span class="work-status-circle mdi mdi-circle" :class="[slotProps.data.onWork ? 'online' : 'offline']"/>
+          <span
+            class="work-status-circle mdi mdi-circle"
+            :class="[slotProps.data.online ? 'online' : 'offline']"
+          />
         </template>
       </p-column>
     </p-data-table>
@@ -21,16 +24,14 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, watch } from 'vue'
 import { socket } from '@/api/socket'
-import { UserOnlineDto } from '@timelog/interfaces'
+import { UserAtWorkDto } from '@timelog/interfaces/src/socket/UserAtWorkDto'
 
-const users = ref<
-  { id: string; name: string; surname: string; patronymic: string; email: string, onWork: boolean }[]
->([])
+const users = ref<UserAtWorkDto>([])
 const loading = ref(true)
 
-const userIdsOnlineList = ref<UserOnlineDto>([])
+const userIdsAtWorkList = ref<UserAtWorkDto>([])
 
-watch(userIdsOnlineList, (newV) => {
+watch(userIdsAtWorkList, (newV) => {
   users.value = []
   newV.forEach((el) => {
     users.value.push(el)
@@ -39,23 +40,23 @@ watch(userIdsOnlineList, (newV) => {
 })
 
 onBeforeMount(() => {
-  socket.on('onlineList', function (data) {
+  socket.on('atWorkList', function (data) {
     loading.value = true
-    userIdsOnlineList.value = data
+    userIdsAtWorkList.value = data
   })
-  socket.emit('getOnlineList', (el) => {
+  socket.emit('getAtWorkList', (el) => {
     loading.value = true
-    userIdsOnlineList.value = el
+    userIdsAtWorkList.value = el
   })
 })
 </script>
 
 <style scoped lang="scss">
-.work-status-circle{
-  &.online{
+.work-status-circle {
+  &.online {
     color: green;
   }
-  &.offline{
+  &.offline {
     color: red;
   }
 }
