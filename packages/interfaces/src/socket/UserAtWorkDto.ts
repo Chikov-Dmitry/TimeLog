@@ -1,6 +1,6 @@
 import { IUserResponseDto } from "../dtoInterface/IUser.response.dto";
 
 interface IUserAtWork extends IUserResponseDto {
-    online: boolean;
+  online: boolean;
 }
 export type UserAtWorkDto = IUserAtWork[];
